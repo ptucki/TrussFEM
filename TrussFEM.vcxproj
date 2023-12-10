@@ -27,8 +27,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\angle.cpp" />
     <ClCompile Include="src\common\arithmetic.cpp" />
     <ClCompile Include="src\Common\utilities.cpp" />
+    <ClCompile Include="src\coordinate_system.cpp" />
     <ClCompile Include="src\Debug\debug.cpp" />
     <ClCompile Include="src\element.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -36,8 +38,10 @@
     <ClCompile Include="src\point.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\angle.h" />
     <ClInclude Include="src\common\arithmetic.h" />
     <ClInclude Include="src\Common\utilities.h" />
+    <ClInclude Include="src\coordinate_system.h" />
     <ClInclude Include="src\Debug\debug.h" />
     <ClInclude Include="src\element.h" />
     <ClInclude Include="src\node.h" />

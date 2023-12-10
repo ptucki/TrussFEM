@@ -215,7 +215,9 @@ constexpr bool Point<N, T>::operator==(Point point)
 
   while (it1 != end1)
   {
-    value = value && equals(*it1++, *it2++);
+    value = value && equals(*it1, *it2);
+    it1++;
+    it2++;
   }
 
   return value;
@@ -224,7 +226,19 @@ constexpr bool Point<N, T>::operator==(Point point)
 template<int N, arithmetic T>
 constexpr bool Point<N, T>::operator!=(Point point)
 {
-  return !equals(values_[0], point.values_[0]);
+  auto it1 = std::cbegin(values_);
+  auto end1 = std::cend(values_);
+  auto it2 = std::cbegin(point.values_);
+  bool value = false;
+
+  while (it1 != end1)
+  {
+    value = value || (!equals(*it1, *it2));
+    it1++;
+    it2++;
+  }
+
+  return value;
 }
 
 
