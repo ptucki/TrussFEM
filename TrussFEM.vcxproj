@@ -27,25 +27,48 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\angle.cpp" />
+    <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\common\arithmetic.cpp" />
+    <ClCompile Include="src\common\geom\angle.cpp" />
+    <ClCompile Include="src\common\geom\coordinate_system.cpp" />
+    <ClCompile Include="src\common\geom\point.cpp" />
     <ClCompile Include="src\Common\utilities.cpp" />
-    <ClCompile Include="src\coordinate_system.cpp" />
     <ClCompile Include="src\Debug\debug.cpp" />
     <ClCompile Include="src\element.cpp" />
+    <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\imgui\misc\freetype\imgui_freetype.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\node.cpp" />
-    <ClCompile Include="src\point.cpp" />
+    <ClCompile Include="src\project.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\angle.h" />
+    <ClInclude Include="src\application.h" />
     <ClInclude Include="src\common\arithmetic.h" />
+    <ClInclude Include="src\common\geom\angle.h" />
+    <ClInclude Include="src\common\geom\coordinate_system.h" />
+    <ClInclude Include="src\common\geom\point.h" />
     <ClInclude Include="src\Common\utilities.h" />
-    <ClInclude Include="src\coordinate_system.h" />
     <ClInclude Include="src\Debug\debug.h" />
     <ClInclude Include="src\element.h" />
+    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\imgui\imconfig.h" />
+    <ClInclude Include="src\imgui\imgui.h" />
+    <ClInclude Include="src\imgui\imgui_internal.h" />
+    <ClInclude Include="src\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\imgui\misc\freetype\imgui_freetype.h" />
+    <ClInclude Include="src\layer.h" />
     <ClInclude Include="src\node.h" />
-    <ClInclude Include="src\point.h" />
+    <ClInclude Include="src\project.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -148,11 +171,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom;C:\Users\patry\Desktop\dev2\TrussFEM\include;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype-2.13.0;$(SolutionDir)src\imgui;$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories);C:\Users\patry\Desktop\dev2\TrussFEM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\extern\GLFW\WINx86;C:\Users\patry\Desktop\dev2\TrussFEM\extern\freetype-2.13.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">
@@ -162,7 +187,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);LIB_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom;C:\Users\patry\Desktop\dev2\TrussFEM\include;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype-2.13.0;$(SolutionDir)src\imgui;$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories);C:\Users\patry\Desktop\dev2\TrussFEM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,13 +203,15 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom;C:\Users\patry\Desktop\dev2\TrussFEM\include;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype-2.13.0;$(SolutionDir)src\imgui;$(SolutionDir)src;$(SolutionDir)src\common;%(AdditionalIncludeDirectories);C:\Users\patry\Desktop\dev2\TrussFEM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\extern\GLFW\WINx86;C:\Users\patry\Desktop\dev2\TrussFEM\extern\freetype-2.13.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -194,12 +221,20 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom;C:\Users\patry\Desktop\dev2\TrussFEM\include;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype-2.13.0;$(SolutionDir)src\imgui;$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories);C:\Users\patry\Desktop\dev2\TrussFEM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\extern\GLFW\WINx64;C:\Users\patry\Desktop\dev2\TrussFEM\extern\freetype-2.13.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy $(SolutionDir)extern\imgui $(SolutionDir)src\imgui /Y /I /E</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>echo D | Xcopy "$(SolutionDir)extern\freetype\objs\x64\Release Static\freetype.*" "$(SolutionDir)lib\freetype\" /F /R /Y /I</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugLib|x64'">
     <ClCompile>
@@ -208,7 +243,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);LIB_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom;C:\Users\patry\Desktop\dev2\TrussFEM\include;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype-2.13.0;$(SolutionDir)src\imgui;$(SolutionDir)src;$(SolutionDir)src\common;$(SolutionDir)src\debug;%(AdditionalIncludeDirectories);C:\Users\patry\Desktop\dev2\TrussFEM\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -224,14 +259,22 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom;C:\Users\patry\Desktop\dev2\TrussFEM\include;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype-2.13.0;$(SolutionDir)src\imgui;$(SolutionDir)src;$(SolutionDir)src\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\lib\GLFW\WINx64;C:\Users\patry\Desktop\dev2\TrussFEM\lib\freetype;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy $(SolutionDir)extern\imgui $(SolutionDir)src\imgui /Y /I /E</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>echo D | Xcopy "$(SolutionDir)extern\freetype\objs\x64\Release Static\freetype.*" "$(SolutionDir)lib\freetype\" /F /R /Y /I</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

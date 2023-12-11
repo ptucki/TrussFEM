@@ -1,0 +1,9 @@
+[submodule "extern/imgui"]
+	path = extern/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "extern/freetype"]
+	path = extern/freetype
+	url = https://github.com/freetype/freetype.git
+[submodule "extern/GLFW"]
+	path = extern/GLFW
+	url = https://github.com/glfw/glfw.git

@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -22,15 +18,24 @@
     <Filter Include="TrussFEM">
       <UniqueIdentifier>{0c7367ac-9ea7-49e1-80d7-ac3d9b917c07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Geometric">
+      <UniqueIdentifier>{39c4b11e-b587-4078-91ca-f5adad06b160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{d321cde7-4e12-41c6-9e85-dd592f28b3b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\misc">
+      <UniqueIdentifier>{8ae54188-e379-4743-bc02-33113672b321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\backends">
+      <UniqueIdentifier>{db561606-0550-4c9e-97ec-5ea577d8474b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\node.cpp">
-      <Filter>TrussFEM</Filter>
-    </ClCompile>
-    <ClCompile Include="src\point.cpp">
       <Filter>TrussFEM</Filter>
     </ClCompile>
     <ClCompile Include="src\element.cpp">
@@ -45,18 +50,48 @@
     <ClCompile Include="src\common\arithmetic.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="src\coordinate_system.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="src\project.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\angle.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="src\common\geom\angle.cpp">
+      <Filter>Common\Geometric</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\geom\coordinate_system.cpp">
+      <Filter>Common\Geometric</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\geom\point.cpp">
+      <Filter>Common\Geometric</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\misc\freetype\imgui_freetype.cpp">
+      <Filter>ImGui\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>ImGui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>ImGui\backends</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\node.h">
-      <Filter>TrussFEM</Filter>
-    </ClInclude>
-    <ClInclude Include="src\point.h">
       <Filter>TrussFEM</Filter>
     </ClInclude>
     <ClInclude Include="src\element.h">
@@ -71,11 +106,53 @@
     <ClInclude Include="src\Common\utilities.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="src\coordinate_system.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="src\project.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\angle.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="src\common\geom\angle.h">
+      <Filter>Common\Geometric</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\geom\coordinate_system.h">
+      <Filter>Common\Geometric</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\geom\point.h">
+      <Filter>Common\Geometric</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\layer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\misc\freetype\imgui_freetype.h">
+      <Filter>ImGui\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>ImGui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>ImGui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h">
+      <Filter>ImGui\backends</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
