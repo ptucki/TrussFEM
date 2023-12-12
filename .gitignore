@@ -35,6 +35,9 @@
 .vs
 packages
 
+# Generted files and directories
 build
 lib
 test/out
+src/imgui
+include
