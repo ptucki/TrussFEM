@@ -1,22 +1,92 @@
-REM -- Building and compiling GLFW lib
+@echo off
+:: -- Any arguments provided?
+:: -- Determine build type
 
-cmake -S ..\extern\GLFW\ -B ..\extern\GLFW\build\ -D CMAKE_BUILD_TYPE=Release
-cmake --build ..\extern\GLFW\build\ --config Release
+if "%1"=="-r" (
+  if not exist config.txt (
+    goto :end
+  ) else (
+    set /p build_type=< config.txt
+    goto :start
+  )
+)
 
-xcopy ..\extern\GLFW\build\src\Release\ ..\lib\GLFW\ /Y /I /E
+if "%1"=="-clean" ( goto :start )
+
+if not exist config.txt (
+  set current_build_type=""
+  :: init Debug setup if no args provided
+  if "%1"=="" (
+    set build_type=Debug
+    echo %build_type%>config.txt
+    echo New file
+    goto :start
+  ) else (
+    if "%1"=="Debug" ( Debug>config.txt )
+    if "%1"=="Release" ( Release>config.txt )
+    set build_type=%1
+    echo %build_type%>config.txt
+    echo New file
+    goto :check-args
+  )
+) else (
+  set /p current_build_type=< config.txt
+  goto :check-args
+)
+
+:check-args
+if "%1"=="" (
+  goto :end
+) else (
+  if "%1"=="Debug" (
+    set build_type=Debug
+    echo %build_type%>config.txt
+  )
+  if "%1"=="Release" (
+    set build_type=Release
+    echo %build_type%>config.txt
+    )
+)
+
+if defined build_type (
+  echo BUILD TYPE DEFINED - %build_type%
+  if %build_type%==%current_build_type% ( goto :end )
+  goto :start
+) else (
+  echo Build type is not defined
+  goto :end
+)
+
+:: -- Clear project
+:start
+
+rmdir /s /q ..\lib\
+rmdir /s /q ..\include\
+rmdir /s /q ..\src\imgui\
+
+if "%1"=="-clean" ( 
+  del "config.txt"
+  goto :end
+)
+:: -- Building and compiling GLFW lib
+
+
+cmake -S ..\extern\GLFW\ -B ..\extern\GLFW\build\ -D CMAKE_BUILD_TYPE=%build_type%
+cmake --build ..\extern\GLFW\build\ --config %build_type%
+
+xcopy ..\extern\GLFW\build\src\%build_type%\ ..\lib\GLFW\ /Y /I /E
 xcopy ..\extern\GLFW\include\ ..\include\ /Y /I /E
 
-REM -- Building and compiling freetype lib
+:: -- Building and compiling freetype lib
 
-cmake -S ..\extern\freetype\ -B ..\extern\freetype\build\ -D CMAKE_BUILD_TYPE=Release
-cmake --build ..\extern\freetype\build\ --config Release
+cmake -S ..\extern\freetype\ -B ..\extern\freetype\build\ -D CMAKE_BUILD_TYPE=%build_type%
+cmake --build ..\extern\freetype\build\ --config %build_type%
 
-xcopy ..\extern\freetype\build\Release\ ..\lib\freetype\ /Y /I /E
+xcopy ..\extern\freetype\build\%build_type%\ ..\lib\freetype\ /Y /I /E
 xcopy ..\extern\freetype\include ..\include\freetype\ /Y /I /E
 
-REM --- Copy imgui source files to src
+:: --- Copy imgui source files to src
 
-@echo off
 set src_folder=..\extern\imgui
 set dst_folder=..\src\imgui
 
@@ -27,3 +97,6 @@ for /f "tokens=*" %%i in (imgui-file-list.txt) DO (
 )
 
 echo DO NOT MODIFY ANY FILE IN THIS DIRECTORY! > ..\src\imgui\info.txt
+
+:end
+pause
