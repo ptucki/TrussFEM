@@ -1,36 +1,43 @@
 @echo off
 :: -- Any arguments provided?
 :: -- Determine build type
+echo first - %1
+set current_build_type=""
+set build_type=""
 
 if "%1"=="-r" (
   if not exist config.txt (
     goto :end
   ) else (
-    set /p build_type=< config.txt
+    set /p build_type=<"config.txt"
     goto :start
   )
 )
 
 if "%1"=="-clean" ( goto :start )
 
-if not exist config.txt (
-  set current_build_type=""
+if not exist "config.txt" (
+
   :: init Debug setup if no args provided
   if "%1"=="" (
     set build_type=Debug
-    echo %build_type%>config.txt
+
     echo New file
     goto :start
   ) else (
-    if "%1"=="Debug" ( Debug>config.txt )
-    if "%1"=="Release" ( Release>config.txt )
-    set build_type=%1
-    echo %build_type%>config.txt
+    if "%1"=="Debug" (
+      echo Debug>"config.txt"
+      goto :start
+      )
+    if "%1"=="Release" (
+      echo Release>"config.txt"
+      goto :start
+    )
     echo New file
     goto :check-args
   )
 ) else (
-  set /p current_build_type=< config.txt
+  set /p current_build_type=<"config.txt"
   goto :check-args
 )
 
@@ -40,34 +47,36 @@ if "%1"=="" (
 ) else (
   if "%1"=="Debug" (
     set build_type=Debug
-    echo %build_type%>config.txt
   )
   if "%1"=="Release" (
     set build_type=Release
-    echo %build_type%>config.txt
     )
+  echo %build_type%>"config.txt"
 )
 
 if defined build_type (
   echo BUILD TYPE DEFINED - %build_type%
-  if %build_type%==%current_build_type% ( goto :end )
+  if "%build_type%"=="%current_build_type%" ( goto :end )
   goto :start
 ) else (
   echo Build type is not defined
   goto :end
 )
 
+
 :: -- Clear project
 :start
+echo %build_type%>"config.txt"
 
 rmdir /s /q ..\lib\
 rmdir /s /q ..\include\
 rmdir /s /q ..\src\imgui\
 
 if "%1"=="-clean" ( 
-  del "config.txt"
+  if exist "config.txt" ( del "config.txt" )
   goto :end
 )
+
 :: -- Building and compiling GLFW lib
 
 
@@ -99,4 +108,3 @@ for /f "tokens=*" %%i in (imgui-file-list.txt) DO (
 echo DO NOT MODIFY ANY FILE IN THIS DIRECTORY! > ..\src\imgui\info.txt
 
 :end
-pause

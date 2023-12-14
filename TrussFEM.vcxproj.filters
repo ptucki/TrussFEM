@@ -65,9 +65,6 @@
     <ClCompile Include="src\application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\imgui\imgui.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="src\imgui\imgui_demo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -78,6 +75,9 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\imgui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\imgui\misc\freetype\imgui_freetype.cpp">
@@ -124,7 +124,7 @@
     <ClInclude Include="src\layer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\imgui\imconfig.h">
+    <ClInclude Include="src\imconfig.h">
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\imgui\imgui.h">
@@ -145,13 +145,13 @@
     <ClInclude Include="src\imgui\misc\freetype\imgui_freetype.h">
       <Filter>ImGui\misc</Filter>
     </ClInclude>
+    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h">
+      <Filter>ImGui\backends</Filter>
+    </ClInclude>
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3.h">
       <Filter>ImGui\backends</Filter>
     </ClInclude>
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h">
-      <Filter>ImGui\backends</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h">
       <Filter>ImGui\backends</Filter>
     </ClInclude>
   </ItemGroup>
