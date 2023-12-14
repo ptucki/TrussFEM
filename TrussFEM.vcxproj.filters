@@ -62,9 +62,6 @@
     <ClCompile Include="src\common\geom\point.cpp">
       <Filter>Common\Geometric</Filter>
     </ClCompile>
-    <ClCompile Include="src\application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\imgui\imgui_demo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
     <ClInclude Include="src\common\geom\point.h">
       <Filter>Common\Geometric</Filter>
     </ClInclude>
-    <ClInclude Include="src\application.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\layer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -153,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>ImGui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
