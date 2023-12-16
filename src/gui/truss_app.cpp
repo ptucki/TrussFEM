@@ -8,13 +8,14 @@ constexpr const char* workspace_id  = "Workspace";
 constexpr const char* log_window_id = "LogWindow";
 
 TrussApp::TrussApp()
+  : project_{ std::make_shared<Project>() }
 {
 
 }
 
 void TrussApp::StartUp()
 {
-  components_.emplace_back(std::make_shared<Workspace>());
+  components_.emplace_back(std::make_shared<Workspace>(project_));
   components_.emplace_back(std::make_shared<LogWindow>());
 }
 
@@ -37,7 +38,6 @@ void TrussApp::RenderMainMenuBar()
     {
       if (ImGui::MenuItem("Siema"))
       {
-        components_.emplace_back(std::make_shared<Workspace>());
       }
       ImGui::EndMenu();
     }

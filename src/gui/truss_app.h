@@ -5,6 +5,7 @@
 #include <memory>
 #include "application.h"
 #include "base_component.h"
+#include "project.h"
 
 enum class CompId : unsigned int
 {
@@ -42,9 +43,14 @@ private:
 
   void RenderMainMenuBar();
 
+  // App state
   bool show_demo_window_ = true;
   ComponentList components_;
   ComponentList map_;
+
+
+  // Solution
+  std::shared_ptr<Project> project_;
 
 };
 

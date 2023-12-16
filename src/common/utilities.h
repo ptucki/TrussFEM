@@ -29,6 +29,15 @@ constexpr std::array<T, N> SubtractArrays(std::array<T, N> array1, std::array<U,
   return array1;
 }
 
+template<typename T, std::size_t N, std::size_t M>
+constexpr std::array<T, N+M> ConcatArrays(std::array<T, N> array1, std::array<T, M> array2)
+{
+  std::array<T, N + M> temp;
+  memcpy(temp.data(), array1.data(), N * sizeof(T));
+  memcpy(temp.data() + N, array2.data(), M * sizeof(T));
+  return temp;
+}
+
 template<typename Container1, typename Container2, typename BinaryFunction>
 constexpr void ForEachCorresponingItems(Container1&& container1, Container2&& container2, BinaryFunction function)
 {
