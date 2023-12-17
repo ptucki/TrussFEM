@@ -37,7 +37,9 @@
 #endif
 
 #include <utility>
+#include <memory>
 #include "application.h"
+#include "base_component.h"
 
 
 static void glfw_error_callback(int error, const char* description)
@@ -47,7 +49,7 @@ static void glfw_error_callback(int error, const char* description)
 
 
 template<class Derived>
-class Application
+class Application : public BaseComponent
 {
 public:
 
@@ -61,6 +63,7 @@ private:
 
   void StartUp();
   void Update();
+  virtual void OnRender() override;
   void Init();
 
   GLFWwindow* window_;
@@ -69,7 +72,8 @@ private:
 
 template<class Derived>
 Application<Derived>::Application()
-  : window_{ nullptr }
+  : BaseComponent(weak_from_this(), "", "main")
+  , window_{ nullptr }
   , clear_color_{ ImVec4(0.45f, 0.55f, 0.60f, 1.00f) }
 {
   Init();
@@ -245,6 +249,12 @@ template<class Derived>
 void Application<Derived>::Update()
 {
   static_cast<Derived*>(this)->Update();
+}
+
+template<class Derived>
+inline void Application<Derived>::OnRender()
+{
+  static_cast<Derived*>(this)->OnRender();
 }
 
 #endif // !APPLICATION_H

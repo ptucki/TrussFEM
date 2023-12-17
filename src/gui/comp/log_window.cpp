@@ -2,8 +2,8 @@
 #include "log_window.h"
 
 
-LogWindow::LogWindow()
-  : BaseComponent("Log Window", "LogWindow")
+LogWindow::LogWindow(std::weak_ptr<BaseComponent> parent)
+  : BaseComponent(parent, "Log Window", "LogWindow")
   , open_{ true }
 {
 

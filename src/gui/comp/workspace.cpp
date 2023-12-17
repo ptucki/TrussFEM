@@ -6,11 +6,11 @@
 #include <format>
 
 
-Workspace::Workspace(std::weak_ptr<Project> project)
-  : BaseComponent("Workspace", "Workspace")
+Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project> project)
+  : BaseComponent(parent, "Workspace", "Workspace")
   , state_{ true }
   , project_{ project }
-, prepare_data_{ false }
+  , prepare_data_{ false }
 {
   PrepareDataToDisplay();
 }
@@ -53,7 +53,7 @@ void Workspace::OnRender()
           ImGui::SetNextItemWidth(-FLT_MIN);
 
           auto input_text_label = std::format("##workspace{}_{}", current_row, current_column);
-          if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue))
+          if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal))
           {
             auto& element   { project->GetElementAt(current_row) };
             auto index      { static_cast<int>(current_column) / element.DimensionCount() };
@@ -98,7 +98,7 @@ void Workspace::PrepareDataToDisplay()
 
     for (auto& cell : row)
     {
-      auto temp = std::to_string(element_data[current_column++]);
+      auto temp = std::format("{:.{}f}",element_data[current_column++],3);
       cell = std::move(temp);
     }
     current_column = 0;

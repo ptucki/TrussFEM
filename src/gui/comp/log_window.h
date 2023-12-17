@@ -6,7 +6,7 @@
 class LogWindow : public BaseComponent
 {
 public:
-  LogWindow();
+  LogWindow(std::weak_ptr<BaseComponent> parent);
   ~LogWindow() = default;
 
   void OnRender() override;

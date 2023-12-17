@@ -11,7 +11,7 @@
 class Workspace : public BaseComponent
 {
 public:
-  Workspace(std::weak_ptr<Project> project);
+  Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project> project);
 
   ~Workspace() = default;
 

@@ -15,18 +15,20 @@ TrussApp::TrussApp()
 
 void TrussApp::StartUp()
 {
-  components_.emplace_back(std::make_shared<Workspace>(project_));
-  components_.emplace_back(std::make_shared<LogWindow>());
+  this->AttachComponent<Workspace>(project_);
+  this->AttachComponent<LogWindow>();
 }
 
 
 void TrussApp::Update()
 {
+  Render();
+}
+
+void TrussApp::OnRender()
+{
   ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
   RenderMainMenuBar();
-
-  for (auto component : components_) component->OnRender();
-
   if (show_demo_window_) { ImGui::ShowDemoWindow(&show_demo_window_); }
 }
 

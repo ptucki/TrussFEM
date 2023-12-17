@@ -22,7 +22,7 @@ public:
 
   void StartUp();
   void Update();
-
+  void OnRender() override;
   template<class Component,typename... Args>
     requires std::is_base_of<BaseComponent, Component>::value
   void AddNewComponent(Args&&... args)
