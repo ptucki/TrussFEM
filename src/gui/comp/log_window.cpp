@@ -3,7 +3,7 @@
 
 
 LogWindow::LogWindow(std::weak_ptr<BaseComponent> parent)
-  : BaseComponent(parent, "Log Window", "LogWindow")
+  : Component<LogWindow>("LogWindow", parent, "Log Window")
   , open_{ true }
 {
 

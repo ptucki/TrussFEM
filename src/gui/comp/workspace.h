@@ -8,7 +8,7 @@
 
 #define WORKSPACE_COLUMN_COUNT 6
 
-class Workspace : public BaseComponent
+class Workspace : public Component<Workspace>
 {
 public:
   Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project> project);

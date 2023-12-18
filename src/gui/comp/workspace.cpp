@@ -7,7 +7,7 @@
 
 
 Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project> project)
-  : BaseComponent(parent, "Workspace", "Workspace")
+  : Component<Workspace>("Workspace", parent, "Workspace")
   , state_{ true }
   , project_{ project }
   , prepare_data_{ false }
@@ -52,7 +52,7 @@ void Workspace::OnRender()
           ImGui::TableSetColumnIndex(static_cast<int>(current_column));
           ImGui::SetNextItemWidth(-FLT_MIN);
 
-          auto input_text_label = std::format("##workspace{}_{}", current_row, current_column);
+          auto input_text_label = std::format("##{}{}_{}", GetId(), current_row, current_column);
           if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal))
           {
             auto& element   { project->GetElementAt(current_row) };

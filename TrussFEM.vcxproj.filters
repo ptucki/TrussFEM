@@ -36,6 +36,9 @@
     <Filter Include="Gui\Components">
       <UniqueIdentifier>{e1ca59b5-45cf-4540-8a8f-413ebf37ad61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gui\Framework">
+      <UniqueIdentifier>{48d69a52-1411-4c1f-acab-f177b5a46716}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -92,14 +95,14 @@
     <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>ImGui\backends</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\truss_app.cpp">
-      <Filter>Gui</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\comp\workspace.cpp">
       <Filter>Gui\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\comp\log_window.cpp">
       <Filter>Gui\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\truss_app.cpp">
+      <Filter>Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,17 +163,23 @@
     <ClInclude Include="src\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>ImGui\backends</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\application.h">
-      <Filter>Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\truss_app.h">
-      <Filter>Gui</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\comp\workspace.h">
       <Filter>Gui\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\comp\log_window.h">
       <Filter>Gui\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\framework\application.h">
+      <Filter>Gui\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\framework\base_component.h">
+      <Filter>Gui\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\framework\component_manager.h">
+      <Filter>Gui\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\truss_app.h">
+      <Filter>Gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

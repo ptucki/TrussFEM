@@ -3,7 +3,7 @@
 
 #include "base_component.h"
 
-class LogWindow : public BaseComponent
+class LogWindow : public Component<LogWindow>
 {
 public:
   LogWindow(std::weak_ptr<BaseComponent> parent);
