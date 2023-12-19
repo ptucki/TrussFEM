@@ -41,3 +41,5 @@ lib
 test/out
 src/imgui
 include
+scripts/config.txt
+imgui.ini
