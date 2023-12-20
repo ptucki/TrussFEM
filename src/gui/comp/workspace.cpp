@@ -1,18 +1,22 @@
-#include <imgui.h>
-#include "workspace.h"
+#include "imgui.h"
+#include "imgui_extension.h"
 #include <string>
 #include <array>
 #include <iostream>
 #include <format>
 
+#include "workspace.h"
 
 Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project> project)
   : Component<Workspace>("Workspace", parent, "Workspace")
   , state_{ true }
   , project_{ project }
   , prepare_data_{ false }
+  , input_text_buffer_{"0, 0, 0, 0"}
 {
   PrepareDataToDisplay();
+
+  input_text_buffer_.reserve(50);
 }
 
 
@@ -22,11 +26,34 @@ void Workspace::OnRender()
   {
     auto project = project_.lock();
 
+    auto input_text_flags = ImGuiInputTextFlags_EscapeClearsAll
+                          | ImGuiInputTextFlags_EnterReturnsTrue
+                          | ImGuiInputTextFlags_CallbackAlways;
+
+    bool input_text_reset = false;
     if (ImGui::Button("Add Element"))
     {
-      project->AddElement({1,2,3},{3,4,5});
+      project->AddElement({ 1,2,3 }, { 3,4,5 });
       prepare_data_ = true;
+      input_text_reset = true;
     }
+
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    ImGui::SameLine();
+
+    if (ImGui::InputText(std::format("##{}InputAddElement", GetId()).c_str(), &input_text_buffer_, &buffer_cleared_, input_text_flags))
+    {
+      input_text_reset = true;
+    }
+
+    if (ImGui::IsItemDeactivated() && input_text_buffer_.empty()) input_text_reset = true;
+    if (input_text_buffer_ != "0, 0, 0, 0") buffer_cleared_ = false;
+    else if(!ImGui::IsItemActive())         buffer_cleared_ = true;
+
+
+
+
+    if (!ImGui::IsItemActive() && input_text_reset) input_text_buffer_ = "0, 0, 0, 0";
 
     if (ImGui::BeginTable("Element Table", WORKSPACE_COLUMN_COUNT, ImGuiTableFlags_Borders))
     {

@@ -26,6 +26,9 @@ private:
 
   std::vector<std::array<std::string, WORKSPACE_COLUMN_COUNT>> table_data_;
   bool prepare_data_;
+
+  std::string input_text_buffer_;
+  bool buffer_cleared_ = true;
 };
 
 

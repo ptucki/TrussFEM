@@ -5,6 +5,7 @@
 #include <format>
 #include <memory>
 #include <vector>
+#include "misc/cpp/imgui_stdlib.h"
 
 class BaseComponent
 {

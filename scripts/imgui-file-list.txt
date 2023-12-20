@@ -15,3 +15,5 @@ backends\imgui_impl_opengl3.h
 backends\imgui_impl_opengl3_loader.h
 misc\freetype\imgui_freetype.cpp
 misc\freetype\imgui_freetype.h
+misc\cpp\imgui_stdlib.cpp
+misc\cpp\imgui_stdlib.h

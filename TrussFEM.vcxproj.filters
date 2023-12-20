@@ -39,6 +39,9 @@
     <Filter Include="Gui\Framework">
       <UniqueIdentifier>{48d69a52-1411-4c1f-acab-f177b5a46716}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\Extension">
+      <UniqueIdentifier>{1f1cfe0e-467d-41f5-a1f9-f5749446b3f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -66,9 +69,6 @@
       <Filter>Common\Geometric</Filter>
     </ClCompile>
     <ClCompile Include="src\common\geom\coordinate_system.cpp">
-      <Filter>Common\Geometric</Filter>
-    </ClCompile>
-    <ClCompile Include="src\common\geom\point.cpp">
       <Filter>Common\Geometric</Filter>
     </ClCompile>
     <ClCompile Include="src\imgui\imgui_demo.cpp">
@@ -103,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="src\gui\truss_app.cpp">
       <Filter>Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>ImGui\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui_extension\imgui_extension.cpp">
+      <Filter>ImGui\Extension</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="src\gui\truss_app.h">
       <Filter>Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>ImGui\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imgui_extension\Imgui_extension.h">
+      <Filter>ImGui\Extension</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
