@@ -6,6 +6,10 @@
 #include <memory>
 #include <vector>
 #include "misc/cpp/imgui_stdlib.h"
+#include "common/uuid.h"
+
+#define GUI_STYLE private
+#define COMP_STATE private
 
 class BaseComponent
 {
@@ -53,7 +57,16 @@ public:
     return Component<Derived>::id;
   };
 
-  std::string GetComponentHeader() const override final
+  std::string PrepareSubItemHeader(std::string label, std::string id_postfix) const
+  {
+    if (id_postfix.empty())
+    {
+      id_postfix = UUID().ToString();
+    }
+    return std::format("{}##{}{}", label, this->id, id_postfix);
+  }
+
+  std::string  GetComponentHeader() const override final
   {
     return std::format("{}##{}", label_, id);
   }

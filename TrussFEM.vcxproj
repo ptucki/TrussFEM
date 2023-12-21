@@ -31,6 +31,7 @@
     <ClCompile Include="src\common\geom\angle.cpp" />
     <ClCompile Include="src\common\geom\coordinate_system.cpp" />
     <ClCompile Include="src\Common\utilities.cpp" />
+    <ClCompile Include="src\common\uuid.cpp" />
     <ClCompile Include="src\Debug\debug.cpp" />
     <ClCompile Include="src\element.cpp" />
     <ClCompile Include="src\gui\comp\log_window.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="src\common\geom\coordinate_system.h" />
     <ClInclude Include="src\common\geom\point.h" />
     <ClInclude Include="src\Common\utilities.h" />
+    <ClInclude Include="src\common\uuid.h" />
     <ClInclude Include="src\Debug\debug.h" />
     <ClInclude Include="src\element.h" />
     <ClInclude Include="src\gui\comp\log_window.h" />

@@ -48,58 +48,14 @@ void Workspace::OnRender()
       input_text_buffer_ = input_label;
     }
 
-    if (ImGui::BeginTable("Element Table", WORKSPACE_COLUMN_COUNT, ImGuiTableFlags_Borders))
-    {
-      std::array<const char*, WORKSPACE_COLUMN_COUNT> column_name = { "X1", "Y1", "Z1", "X2", "Y2", "Z2" };
-      
-      for(auto column : column_name) ImGui::TableSetupColumn(column);
-      ImGui::TableHeadersRow();
-
-      if (prepare_data_) {
-        PrepareDataToDisplay();
-        prepare_data_ = !prepare_data_;
-      }
-
-      size_t current_row{ 0 };
-      size_t current_column{ 0 };
-
-      for (auto& row : table_data_)
-      {
-        ImGui::TableNextRow();
-
-        for (auto& cell : row)
-        {
-          ImGui::TableSetColumnIndex(static_cast<int>(current_column));
-          ImGui::SetNextItemWidth(-FLT_MIN);
-
-          auto input_text_label = std::format("##{}{}_{}", GetId(), current_row, current_column);
-          if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal))
-          {
-            auto& element   { project->GetElementAt(current_row) };
-            auto index      { static_cast<int>(current_column) / element.DimensionCount() };
-            auto coordinate { current_column % element.DimensionCount() };
-
-            std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), &element.GetNodeJ() };
-
-            nodes[index]->SetValueAt(static_cast<int>(coordinate), std::stod(table_data_[current_row][current_column].c_str()));
-
-            
-            prepare_data_ = true; //RefreshCell();
-            break;
-          }
-          current_column++;
-        }
-        current_column = 0;
-        current_row++;
-      }
-
-      ImGui::EndTable();
-    }
+    RenderElementTable();
 
     ImGui::End();
   }
 
 }
+
+
 
 void Workspace::PrepareDataToDisplay()
 {
@@ -122,5 +78,62 @@ void Workspace::PrepareDataToDisplay()
       cell = std::move(temp);
     }
     current_column = 0;
+  }
+}
+
+void Workspace::RenderElementTable()
+{
+  auto project = project_.lock();
+
+  if (ImGui::BeginTable("Element Table", WORKSPACE_COLUMN_COUNT, ImGuiTableFlags_Borders))
+  {
+    std::array<const char*, WORKSPACE_COLUMN_COUNT> column_name = { "X1", "Y1", "Z1", "X2", "Y2", "Z2" };
+
+    for (auto column : column_name) ImGui::TableSetupColumn(column);
+    ImGui::TableHeadersRow();
+
+    if (prepare_data_) {
+      PrepareDataToDisplay();
+      prepare_data_ = !prepare_data_;
+    }
+
+    size_t current_row{ 0 };
+    size_t current_column{ 0 };
+
+    for (auto& row : table_data_)
+    {
+      ImGui::TableNextRow();
+
+      for (auto& cell : row)
+      {
+        auto input_text_label = std::format("##{}{}_{}", GetId(), current_row, current_column);
+        
+        ImGui::TableSetColumnIndex(static_cast<int>(current_column));
+
+        ImGui::CalcTextSize(cell.c_str());
+        ImGui::SetNextItemWidth(ImGui::CalcTextSize(cell.c_str()).x + ImGui::GetStyle().FramePadding.x * 2);
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.3, 0.3, 0.3, 1));
+        if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal))
+        {
+          auto& element{ project->GetElementAt(current_row) };
+          auto index{ static_cast<int>(current_column) / element.DimensionCount() };
+          auto coordinate{ current_column % element.DimensionCount() };
+
+          std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), & element.GetNodeJ() };
+
+          nodes[index]->SetValueAt(static_cast<int>(coordinate), std::stod(table_data_[current_row][current_column].c_str()));
+
+
+          prepare_data_ = true; //RefreshCell();
+          break;
+        }
+        ImGui::PopStyleColor();
+        current_column++;
+      }
+      current_column = 0;
+      current_row++;
+
+    }
+    ImGui::EndTable();
   }
 }

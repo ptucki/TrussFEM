@@ -110,6 +110,9 @@
     <ClCompile Include="src\imgui_extension\imgui_extension.cpp">
       <Filter>ImGui\Extension</Filter>
     </ClCompile>
+    <ClCompile Include="src\common\uuid.cpp">
+      <Filter>Common\Geometric</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\node.h">
@@ -192,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="src\imgui_extension\Imgui_extension.h">
       <Filter>ImGui\Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\uuid.h">
+      <Filter>Common\Geometric</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

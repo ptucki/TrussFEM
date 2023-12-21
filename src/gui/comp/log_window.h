@@ -11,9 +11,21 @@ public:
 
   void OnRender() override;
 
-  void Toggle() { open_ = !open_; }
-private:
-  bool open_;
+  void Toggle() { opened_ = !opened_; }
+
+COMP_STATE:
+  const char* id_messages_;
+
+  bool opened_;
+
+  std::vector<std::string> values_; //To be deleted when logger
+
+  std::string command_line_buffer_;
+  bool input_state_;
+
+
+GUI_STYLE:
+  float input_height;
 };
 
 

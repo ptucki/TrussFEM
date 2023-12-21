@@ -18,6 +18,9 @@ public:
   void OnRender() override;
 
 private:
+
+  void RenderElementTable();
+
   void PrepareDataToDisplay();
 
   std::weak_ptr<Project> project_;
