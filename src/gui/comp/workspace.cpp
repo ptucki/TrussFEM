@@ -12,7 +12,7 @@ Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project>
   , state_{ true }
   , project_{ project }
   , prepare_data_{ false }
-  , input_text_buffer_{"0, 0, 0, 0"}
+  , input_text_buffer_{""}
 {
   PrepareDataToDisplay();
 
@@ -26,9 +26,7 @@ void Workspace::OnRender()
   {
     auto project = project_.lock();
 
-    auto input_text_flags = ImGuiInputTextFlags_EscapeClearsAll
-                          | ImGuiInputTextFlags_EnterReturnsTrue
-                          | ImGuiInputTextFlags_CallbackAlways;
+    auto input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue; //ImGuiInputTextFlags_Callback;
 
     bool input_text_reset = false;
     if (ImGui::Button("Add Element"))
@@ -41,19 +39,14 @@ void Workspace::OnRender()
     ImGui::SetNextItemWidth(-FLT_MIN);
     ImGui::SameLine();
 
-    if (ImGui::InputText(std::format("##{}InputAddElement", GetId()).c_str(), &input_text_buffer_, &buffer_cleared_, input_text_flags))
+    static bool temp = true;
+
+    const char* input_label = "Write coordinates ex. 0, 0, 0, 0 and press [Enter] to add new element.";
+    if (ImGuiEX::InputText(std::format("##{}InputAddElement", GetId()).c_str(), &input_text_buffer_, input_label, &temp, input_text_flags))
     {
-      input_text_reset = true;
+      std::cout << input_text_buffer_ << std::endl;
+      input_text_buffer_ = input_label;
     }
-
-    if (ImGui::IsItemDeactivated() && input_text_buffer_.empty()) input_text_reset = true;
-    if (input_text_buffer_ != "0, 0, 0, 0") buffer_cleared_ = false;
-    else if(!ImGui::IsItemActive())         buffer_cleared_ = true;
-
-
-
-
-    if (!ImGui::IsItemActive() && input_text_reset) input_text_buffer_ = "0, 0, 0, 0";
 
     if (ImGui::BeginTable("Element Table", WORKSPACE_COLUMN_COUNT, ImGuiTableFlags_Borders))
     {

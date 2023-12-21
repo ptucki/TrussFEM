@@ -3,13 +3,14 @@
 #include "imgui.h"
 #include "misc/cpp/imgui_stdlib.h"
 
-namespace ImGui
+namespace ImGuiEX
 {
 
   bool InputText(
     const char* label,
     std::string* str,
-    bool* clear_flag = nullptr,
+    const std::string& placeholder,
+    bool* input_text_state,
     ImGuiInputTextFlags flags = 0,
     ImGuiInputTextCallback callback = nullptr,
     void* user_data = nullptr);
