@@ -76,4 +76,10 @@ constexpr auto ArgsCount(F)
   return argsCount(&F::operator());
 }
 
+constexpr bool IsSpace(char ch);
+
+std::vector<std::string> SplitString(const std::string& str, char splitter, bool ignore_whitespaces = true);
+
+std::vector<double> ConvertStringListToFloats(const std::vector<std::string>& str_floats);
+
 #endif // !UTILITIES_H
