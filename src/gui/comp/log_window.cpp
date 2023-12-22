@@ -7,7 +7,7 @@
 
 LogWindow::LogWindow(std::weak_ptr<BaseComponent> parent)
   : Component<LogWindow>("LogWindow", parent, "Log Window")
-  , id_messages_{ PrepareSubItemHeader("", "childWindow" ).c_str() }
+  , id_messages_{ PrepareSubItemHeader("", "childWindow" ) }
   , opened_{ true }
   , command_line_buffer_{ "" }
   , input_state_{ true }

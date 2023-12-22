@@ -15,6 +15,8 @@ public:
     requires arithmetic<T>
   Node(T arg, Args... args);
 
+  Node(Point<N> p);
+
 private:
 
 };
@@ -23,6 +25,11 @@ template<int N>
 inline Node<N>::Node() : Point<N>()
 {
 
+}
+
+template<int N>
+inline Node<N>::Node(Point<N> p) : Point<N>(p)
+{
 }
 
 template<int N>

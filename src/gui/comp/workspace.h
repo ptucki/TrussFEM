@@ -19,19 +19,22 @@ public:
 
 private:
 
-  void RenderElementTable();
+  void Action_PrepareDataToDisplay();
+  void Action_AddElement();
 
-  void PrepareDataToDisplay();
+  void Render_ElementTable();
 
   std::weak_ptr<Project> project_;
   bool state_;
-
 
   std::vector<std::array<std::string, WORKSPACE_COLUMN_COUNT>> table_data_;
   bool prepare_data_;
 
   std::string input_text_buffer_;
-  bool buffer_cleared_ = true;
+  bool input_text_reset_;
+
+GUI_STYLE:
+
 };
 
 

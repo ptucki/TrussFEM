@@ -1,5 +1,6 @@
 #include "imgui.h"
 #include "imgui_extension.h"
+#include "utilities.h"
 #include <string>
 #include <array>
 #include <iostream>
@@ -7,14 +8,17 @@
 
 #include "workspace.h"
 
+constexpr const char* input_label = "Write coordinates ex. 0, 0, 0, 0, 0, 0 and press [Enter] to add new element.";
+
 Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project> project)
   : Component<Workspace>("Workspace", parent, "Workspace")
   , state_{ true }
   , project_{ project }
   , prepare_data_{ false }
   , input_text_buffer_{""}
+  , input_text_reset_{ true }
 {
-  PrepareDataToDisplay();
+  Action_PrepareDataToDisplay();
 
   input_text_buffer_.reserve(50);
 }
@@ -22,33 +26,28 @@ Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project>
 
 void Workspace::OnRender()
 {
-  if (state_ && ImGui::Begin(GetComponentHeader().c_str(), &state_, ImGuiWindowFlags_MenuBar))
+  if (state_ && ImGui::Begin(GetComponentHeader().c_str(), &state_))
   {
     auto project = project_.lock();
 
-    auto input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue; //ImGuiInputTextFlags_Callback;
-
-    bool input_text_reset = false;
-    if (ImGui::Button("Add Element"))
-    {
-      project->AddElement({ 1,2,3 }, { 3,4,5 });
-      prepare_data_ = true;
-      input_text_reset = true;
-    }
+    if (ImGui::Button("Add Element")) Action_AddElement();
 
     ImGui::SetNextItemWidth(-FLT_MIN);
     ImGui::SameLine();
 
-    static bool temp = true;
+    auto input_text_flags = 
+      ImGuiInputTextFlags_EnterReturnsTrue;
+    auto input = 
+      ImGuiEX::InputText(
+        PrepareSubItemHeader("", "InputAddElement").c_str(),
+        &input_text_buffer_,
+        input_label,
+        &input_text_reset_,
+        input_text_flags);
 
-    const char* input_label = "Write coordinates ex. 0, 0, 0, 0 and press [Enter] to add new element.";
-    if (ImGuiEX::InputText(std::format("##{}InputAddElement", GetId()).c_str(), &input_text_buffer_, input_label, &temp, input_text_flags))
-    {
-      std::cout << input_text_buffer_ << std::endl;
-      input_text_buffer_ = input_label;
-    }
+    if (input) Action_AddElement();
 
-    RenderElementTable();
+    Render_ElementTable();
 
     ImGui::End();
   }
@@ -57,7 +56,7 @@ void Workspace::OnRender()
 
 
 
-void Workspace::PrepareDataToDisplay()
+void Workspace::Action_PrepareDataToDisplay()
 {
   auto project          { project_.lock() };
   size_t current_row    { 0 };
@@ -81,7 +80,31 @@ void Workspace::PrepareDataToDisplay()
   }
 }
 
-void Workspace::RenderElementTable()
+void Workspace::Action_AddElement()
+{
+  auto project = project_.lock();
+
+  if (0 != strcmp(input_text_buffer_.c_str(), input_label))
+  {
+    auto coordinates = SplitString(input_text_buffer_, ',');
+
+    if (coordinates.size() == 6)
+    {
+      auto f_cords = ConvertStringListToFloats(coordinates);
+      Node<3> i{f_cords[0], f_cords[1], f_cords[2]};
+      Node<3> j{f_cords[3], f_cords[4], f_cords[5]};
+      project->AddElement(i, j);
+
+      prepare_data_ = true;
+      
+    }
+    input_text_reset_ = true;
+    input_text_buffer_ = "";
+    ImGui::SetItemDefaultFocus();
+  }
+}
+
+void Workspace::Render_ElementTable()
 {
   auto project = project_.lock();
 
@@ -93,7 +116,7 @@ void Workspace::RenderElementTable()
     ImGui::TableHeadersRow();
 
     if (prepare_data_) {
-      PrepareDataToDisplay();
+      Action_PrepareDataToDisplay();
       prepare_data_ = !prepare_data_;
     }
 
@@ -110,9 +133,8 @@ void Workspace::RenderElementTable()
         
         ImGui::TableSetColumnIndex(static_cast<int>(current_column));
 
-        ImGui::CalcTextSize(cell.c_str());
-        ImGui::SetNextItemWidth(ImGui::CalcTextSize(cell.c_str()).x + ImGui::GetStyle().FramePadding.x * 2);
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.3, 0.3, 0.3, 1));
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.3f, 0.3f, 0.3f, 0.0f));
         if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal))
         {
           auto& element{ project->GetElementAt(current_row) };
@@ -125,6 +147,7 @@ void Workspace::RenderElementTable()
 
 
           prepare_data_ = true; //RefreshCell();
+          ImGui::PopStyleColor();
           break;
         }
         ImGui::PopStyleColor();

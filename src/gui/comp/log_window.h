@@ -14,7 +14,7 @@ public:
   void Toggle() { opened_ = !opened_; }
 
 COMP_STATE:
-  const char* id_messages_;
+  std::string id_messages_;
 
   bool opened_;
 
