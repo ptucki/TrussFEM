@@ -6,6 +6,8 @@
 #include <concepts>
 #include <iostream>
 #include <string_view>
+#include <string>
+#include <format>
 #include "arithmetic.h"
 #include "debug.h"
 
@@ -35,6 +37,21 @@ constexpr std::array<T, N+M> ConcatArrays(std::array<T, N> array1, std::array<T,
   std::array<T, N + M> temp;
   memcpy(temp.data(), array1.data(), N * sizeof(T));
   memcpy(temp.data() + N, array2.data(), M * sizeof(T));
+  return temp;
+}
+
+template<typename T, std::size_t N>
+constexpr decltype(auto) StringifyArrayItems(const std::array<T, N> array)
+{
+  std::array<std::string, N> temp;
+
+  auto it = std::begin(temp);
+  for (const auto& el : array)
+  {
+    *it = std::to_string(el);
+    it++;
+  }
+
   return temp;
 }
 
