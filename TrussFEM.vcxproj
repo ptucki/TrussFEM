@@ -77,7 +77,7 @@
     <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\imgui\misc\freetype\imgui_freetype.h" />
-    <ClInclude Include="src\imgui_extension\Imgui_extension.h" />
+    <ClInclude Include="src\imgui_extension\imgui_extension.h" />
     <ClInclude Include="src\node.h" />
     <ClInclude Include="src\project.h" />
   </ItemGroup>

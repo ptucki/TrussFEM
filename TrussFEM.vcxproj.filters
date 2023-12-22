@@ -193,7 +193,7 @@
     <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h">
       <Filter>ImGui\misc</Filter>
     </ClInclude>
-    <ClInclude Include="src\imgui_extension\Imgui_extension.h">
+    <ClInclude Include="src\imgui_extension\imgui_extension.h">
       <Filter>ImGui\Extension</Filter>
     </ClInclude>
     <ClInclude Include="src\common\uuid.h">
