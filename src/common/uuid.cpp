@@ -12,6 +12,12 @@ UUID::UUID()
 
   gen_[0] = static_cast<array_type::value_type>(mt());
   gen_[1] = static_cast<array_type::value_type>(mt());
+
+  //Reset bits 36-39
+  gen_[0] &= (~0ull & (~(0b1111ull << 36ull)));;
+  //Set bit 38 to 1
+  gen_[0] |= (1ull << 38ull);;
+
 }
 
 UUID::UUID(const UUID& obj)
@@ -53,6 +59,9 @@ std::string UUID::ToString() const
 
   return UUID::unpack_array(arr, std::make_index_sequence<size>{});
 }
+
+constexpr int UUID::GetVersion() const
+{ return 4; }
 
 bool UUID::IsValid() const
 {

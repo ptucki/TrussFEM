@@ -24,6 +24,7 @@ public:
   UUID& operator=(UUID&& rhs) noexcept;
 
   std::string ToString() const;
+  constexpr int GetVersion() const;
   bool IsValid() const;
 
   bool operator==(const UUID& rhs) const;
