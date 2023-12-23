@@ -17,6 +17,7 @@ Workspace::Workspace(std::weak_ptr<BaseComponent> parent, std::weak_ptr<Project>
   , prepare_data_{ false }
   , input_text_buffer_{""}
   , input_text_reset_{ true }
+  , cbox_current_option_{ static_cast<ComboBoxOption>(0) }
 {
   Action_PrepareDataToDisplay();
 
@@ -29,6 +30,8 @@ void Workspace::OnRender()
   if (state_ && ImGui::Begin(GetComponentHeader().c_str(), &state_))
   {
     auto project = project_.lock();
+
+    Render_ComboBox();
 
     if (ImGui::Button("Add Element")) Action_AddElement();
 
@@ -47,14 +50,25 @@ void Workspace::OnRender()
 
     if (input) Action_AddElement();
 
-    Render_ElementTable();
+    std::array<const char*, 6> element_column_name = { "X1", "Y1", "Z1", "X2", "Y2", "Z2" };
+    std::array<const char*, 3> node_column_name = { "X", "Y", "Z"};
+
+    switch (cbox_current_option_)
+    {
+    case Workspace::ComboBoxOption::ElementTable:
+      ImGuiEX::EditableTable(PrepareSubItemHeader("","ElementTable").c_str(), element_column_name, element_table_data_, &Workspace::Action_OnElementTableInput, this, project.get(), ImGuiTableFlags_Borders);
+      break;
+    case Workspace::ComboBoxOption::NodeTable:
+      ImGuiEX::EditableTable(PrepareSubItemHeader("","NodeTable").c_str(), node_column_name, node_table_data_, &Workspace::Action_OnElementTableInput, this, project.get(), ImGuiTableFlags_Borders);
+      break;
+    default:
+      break;
+    }
 
     ImGui::End();
   }
 
 }
-
-
 
 void Workspace::Action_PrepareDataToDisplay()
 {
@@ -62,14 +76,14 @@ void Workspace::Action_PrepareDataToDisplay()
   size_t current_row    { 0 };
   size_t current_column { 0 };
 
-  table_data_.resize(project->GetElementList().size());
+  element_table_data_.resize(project->GetElementList().size());
 
   for (auto& element : project->GetElementList())
   {
     auto& node_i = element->GetNodeI();
     auto& node_j = element->GetNodeJ();
     auto element_data = ConcatArrays(node_i.GetValues(), node_j.GetValues());
-    auto& row = table_data_[current_row++];
+    auto& row = element_table_data_[current_row++];
 
     for (auto& cell : row)
     {
@@ -79,7 +93,6 @@ void Workspace::Action_PrepareDataToDisplay()
     current_column = 0;
   }
 }
-
 void Workspace::Action_AddElement()
 {
   auto project = project_.lock();
@@ -95,68 +108,52 @@ void Workspace::Action_AddElement()
       Node<3> j{f_cords[3], f_cords[4], f_cords[5]};
       project->AddElement(i, j);
 
-      prepare_data_ = true;
-      
+      auto cords_arr = ConcatArrays(i.GetValues(), j.GetValues());
+
+      element_table_data_.push_back(StringifyArrayItems(cords_arr, "{:.{}f}", 3));
     }
+
     input_text_reset_ = true;
     input_text_buffer_ = "";
     ImGui::SetItemDefaultFocus();
   }
 }
 
-void Workspace::Render_ElementTable()
+bool Workspace::Action_OnElementTableInput(TableDataPack& data_pack)
 {
-  auto project = project_.lock();
+  auto project = static_cast<Project*>(data_pack.user_data);
+  auto current_row = data_pack.row;
+  auto current_column = data_pack.column;
 
-  if (ImGui::BeginTable("Element Table", WORKSPACE_COLUMN_COUNT, ImGuiTableFlags_Borders))
+  auto& element{ project->GetElementAt(current_row) };
+  auto index{ static_cast<int>(current_column) / element.DimensionCount() };
+  auto coordinate{ static_cast<int>(current_column) % element.DimensionCount() };
+
+  std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), & element.GetNodeJ() };
+
+  nodes[index]->SetValueAt(static_cast<int>(coordinate), std::stod(data_pack.item.c_str()));
+
+  return true;
+}
+
+void Workspace::Render_ComboBox()
+{
+  std::array<const char*,2> items = { "Elements", "Nodes" };
+  auto current_option = ToUnderlying(cbox_current_option_);
+  const char* combo_preview_value = items[current_option];
+
+  if (ImGui::BeginCombo(PrepareSubItemHeader("","Combobox").c_str(), combo_preview_value, ImGuiComboFlags_HeightSmall))
   {
-    std::array<const char*, WORKSPACE_COLUMN_COUNT> column_name = { "X1", "Y1", "Z1", "X2", "Y2", "Z2" };
-
-    for (auto column : column_name) ImGui::TableSetupColumn(column);
-    ImGui::TableHeadersRow();
-
-    if (prepare_data_) {
-      Action_PrepareDataToDisplay();
-      prepare_data_ = !prepare_data_;
-    }
-
-    size_t current_row{ 0 };
-    size_t current_column{ 0 };
-
-    for (auto& row : table_data_)
+    for (int n = 0; n < items.size(); n++)
     {
-      ImGui::TableNextRow();
+      const bool is_selected = (current_option == n);
+      if (ImGui::Selectable(items[n], is_selected))
+        cbox_current_option_ = static_cast<ComboBoxOption>(n);
 
-      for (auto& cell : row)
-      {
-        auto input_text_label = std::format("##{}{}_{}", GetId(), current_row, current_column);
-        
-        ImGui::TableSetColumnIndex(static_cast<int>(current_column));
-
-        ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.3f, 0.3f, 0.3f, 0.0f));
-        if (ImGui::InputText(input_text_label.c_str(), cell.data(), cell.capacity(), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CharsDecimal))
-        {
-          auto& element{ project->GetElementAt(current_row) };
-          auto index{ static_cast<int>(current_column) / element.DimensionCount() };
-          auto coordinate{ current_column % element.DimensionCount() };
-
-          std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), & element.GetNodeJ() };
-
-          nodes[index]->SetValueAt(static_cast<int>(coordinate), std::stod(table_data_[current_row][current_column].c_str()));
-
-
-          prepare_data_ = true; //RefreshCell();
-          ImGui::PopStyleColor();
-          break;
-        }
-        ImGui::PopStyleColor();
-        current_column++;
-      }
-      current_column = 0;
-      current_row++;
-
+      if (is_selected)
+        ImGui::SetItemDefaultFocus();
     }
-    ImGui::EndTable();
+    ImGui::EndCombo();
   }
+
 }

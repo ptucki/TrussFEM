@@ -4,9 +4,8 @@
 #include <string>
 #include <memory>
 #include "base_component.h"
+#include "imgui_extension.h"
 #include "project.h"
-
-#define WORKSPACE_COLUMN_COUNT 6
 
 class Workspace : public Component<Workspace>
 {
@@ -19,19 +18,34 @@ public:
 
 private:
 
+  enum class ComboBoxOption
+  {
+    ElementTable = 0,
+    NodeTable
+  };
+
   void Action_PrepareDataToDisplay();
   void Action_AddElement();
+  bool Action_OnElementTableInput(TableDataPack& data_pack);
 
-  void Render_ElementTable();
+  void Render_ComboBox();
 
   std::weak_ptr<Project> project_;
   bool state_;
 
-  std::vector<std::array<std::string, WORKSPACE_COLUMN_COUNT>> table_data_;
+  //Element Table
+  std::vector<std::array<std::string, 6>> element_table_data_;
   bool prepare_data_;
+
+  //Node Table
+  std::vector<std::array<std::string, 3>> node_table_data_;
 
   std::string input_text_buffer_;
   bool input_text_reset_;
+
+  //Combobox
+  ComboBoxOption cbox_current_option_;
+  const char* cbox_preview_value_;
 
 GUI_STYLE:
 

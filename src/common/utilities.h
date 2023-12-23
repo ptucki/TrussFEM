@@ -11,6 +11,13 @@
 #include "arithmetic.h"
 #include "debug.h"
 
+template<class T>
+concept string_like = std::is_convertible_v<T, std::string_view>;
+
+template<class T>
+concept not_string_like = !std::is_convertible_v<T, std::string_view>;
+
+
 template<arithmetic T, arithmetic U, std::size_t N>
 constexpr std::array<T, N> SumArrays(std::array<T, N> array1, std::array<U, N> array2)
 {
@@ -49,6 +56,21 @@ constexpr decltype(auto) StringifyArrayItems(const std::array<T, N> array)
   for (const auto& el : array)
   {
     *it = std::to_string(el);
+    it++;
+  }
+
+  return temp;
+}
+
+template<typename T, std::size_t N, typename... Args>
+constexpr decltype(auto) StringifyArrayItems(const std::array<T, N> array, const std::format_string<T, Args...> fmt, Args... args)
+{
+  std::array<std::string, N> temp;
+
+  auto it = std::begin(temp);
+  for (const auto& el : array)
+  {
+    *it = std::vformat(fmt.get(), std::make_format_args(el, args...));
     it++;
   }
 
@@ -98,5 +120,11 @@ constexpr bool IsSpace(char ch);
 std::vector<std::string> SplitString(const std::string& str, char splitter, bool ignore_whitespaces = true);
 
 std::vector<double> ConvertStringListToFloats(const std::vector<std::string>& str_floats);
+
+template<typename E>
+decltype(auto) ToUnderlying(E enumeration)
+{
+  return std::underlying_type_t<E>(enumeration);
+}
 
 #endif // !UTILITIES_H
