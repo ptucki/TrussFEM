@@ -15,6 +15,12 @@
   #define  DEBUG_POINT
 #endif // _DEBUG
 
+/**
+* @brief Class of N-dimensional representation of Point
+*
+* @param N point's dimentions
+* @param T type of point data
+*/
 template<int N, arithmetic T = double>
 class Point;
 
@@ -30,34 +36,111 @@ public:
   using reference = T&;
   using size_type = decltype(N);
 
+  /**
+  * Constructs a new point with coordinates set to 0.
+  * @brief Default constructor
+  * @see template<arithmetic U, arithmetic... Tail> Point(U arg, Tail... args);
+  * @see template<typename Indices = std::make_index_sequence<N>> Point(std::array<T, N> values);
+  * @see template<std::size_t... I> Point(std::array<T, N> values, std::index_sequence<I...>);
+  */
   Point() noexcept : values_{ 0 } {}
 
+  /**
+  * Constructs a new point with given coordinates.
+  * @brief Constructor
+  * 
+  * @param arg - first coordinate
+  * @param args - subsequent coordinates
+  * 
+  * @see Point() noexcept;
+  * @see template<typename Indices = std::make_index_sequence<N>> Point(std::array<T, N> values);
+  * @see template<std::size_t... I> Point(std::array<T, N> values, std::index_sequence<I...>);
+  */
   template<arithmetic U, arithmetic... Tail>
   Point(U arg, Tail... args);
 
-
+  /**
+  * Constructs a new point with given coordinates.
+  * @brief Constructor
+  * @see Point() noexcept;
+  * @see template<arithmetic U, arithmetic... Tail> Point(U arg, Tail... args);
+  * @see template<std::size_t... I> Point(std::array<T, N> values, std::index_sequence<I...>);
+  */
   template<typename Indices = std::make_index_sequence<N>>
   Point(std::array<T, N> values);
 
-  const double* data() noexcept;
+  /**
+  * @brief Get raw pointer to point's data.
+  * @return Raw pointer to point's data.
+  */
+  const T* data() noexcept;
 
+  /**
+  * @brief Get const reference to array of point coordinates.
+  * @return Const reference to array of point coordinates.
+  */
   const std::array<value_type, N>&  GetValues() const&;
+
+  /**
+  * @brief Get reference to array of point coordinates.
+  * @return Reference to array of point coordinates.
+  */
   std::array<value_type, N>&  GetValues() &;
+
+  /**
+  * @brief Get value reference to array of point coordinates.
+  * @return Value reference to array of point coordinates.
+  */
   std::array<value_type, N>&& GetValues() &&;
   
-  template<arithmetic ...Args>
-  void SetValues(Args... args);
+  /**
+  * @brief Sets point coordinates for given subsequent arguments.
+  * @param U - arithmetic type of first argument
+  * @param Args - arithmetic type pack of subsequent parameters
+  * @param arg - first argument
+  * @param args - subsequent parameters
+  */
+  template<arithmetic U, arithmetic ...Args>
+  void SetValues(U arg, Args... args);
 
+  /**
+  * @brief Sets given point coordinate value.
+  * @param index - coordinate poisiton
+  * @param value - new coordinate value
+  */
   void SetValueAt(int index, T value);
 
 
+  /**
+  * @brief Get reference to M point coordinate.
+  * @param M - given coordinate
+  * @return Reference to M coordinate.
+  */
   template<decltype(N) M>
   constexpr reference get();
 
+  /**
+  * @brief Get X(at index 0) point coordinate value.
+  * @return X coordinate value.
+  */
   constexpr value_type GetX() const;
+
+  /**
+  * @brief Get Y(at index 1) point coordinate value.
+  * @return Y coordinate value.
+  */
   constexpr value_type GetY() const;
+
+  /**
+  * @brief Get Z(at index 2) point coordinate value.
+  * @return Z coordinate value.
+  */
   constexpr value_type GetZ() const;
 
+  /**
+  * @brief Get dimensions count of a point.
+  * @return Number of dimensions of a point.
+  */
   static constexpr size_type DimensionCount() noexcept;
 
   constexpr Point operator+(Point point);
@@ -83,16 +166,19 @@ public:
 #endif
 private:
 
+  /**
+    * Constructs a new point
+    * @brief Constructor
+    * @param I - index sequence
+    * @param values - point coordinations 
+    * @see template<arithmetic U, arithmetic... Tail> Point(U arg, Tail... args);
+    * @see template<typename Indices = std::make_index_sequence<N>> Point(std::array<T, N> values);
+  */
   template<std::size_t... I>
   Point(std::array<T, N> values, std::index_sequence<I...>) : Point(values[I]...) {}
 
-
-  std::array<value_type,N> values_;
+  std::array<value_type,N> values_; /**< point coordinates */
 };
-
-// -----------------------
-// --- Implementation ----
-// -----------------------
 
 template<int N, arithmetic T>
 template<arithmetic U, arithmetic ...Tail>
@@ -110,7 +196,7 @@ Point<N, T>::Point(std::array<T, N> values) : Point(values, Indices{})
 }
 
 template<int N, arithmetic T>
-const double* Point<N, T>::data() noexcept
+const T* Point<N, T>::data() noexcept
 {
   return values_.data();
 }
@@ -141,11 +227,11 @@ inline void Point<N, T>::SetValueAt(int index, T value)
 }
 
 template<int N, arithmetic T>
-template<arithmetic ...Args>
-inline void Point<N, T>::SetValues(Args ...args)
+template<arithmetic U, arithmetic ...Args>
+inline void Point<N, T>::SetValues(U arg, Args ...args)
 {
-  static_assert(sizeof...(Args) == N, "Number of arguments must be equal to the number of defined point dimentions");
-  std::array<T, sizeof...(Args)> temp = {args...};
+  static_assert(sizeof...(Args) == N - 1, "Number of arguments must be equal to the number of defined point dimentions");
+  std::array<T, sizeof...(Args) + 1> temp = {arg, args...};
   values_ = std::move(temp);
 }
 
