@@ -23,14 +23,22 @@ void Project::AddElement(Node<3> i, Node<3> j)
     if (**it == j)
     {
       j_node_found = true;
-      i_node = *it;
+      j_node = *it;
     }
   }
 
-  if (!i_node_found) nodes_.push_back(std::move(i_node));
-  if (!j_node_found) nodes_.push_back(std::move(j_node));
+  if (!i_node_found)
+  {
+    nodes_.push_back(std::move(i_node));
+    i_node = nodes_.back();
+  }
+  if (!j_node_found)
+  {
+    nodes_.push_back(std::move(j_node));
+    j_node = nodes_.back();
+  }
 
-  elements_.emplace_back(std::make_shared<Element<3>>(nodes_[nodes_.size() - 2], nodes_[nodes_.size() - 1]));
+  elements_.emplace_back(std::make_shared<Element<3>>(i_node, j_node));
 }
 
 Project::ElementList& Project::GetElementList() &
@@ -67,4 +75,9 @@ const Project::NodeList& Project::GetNodeList() const&
 Element<3>& Project::GetElementAt(size_t index)
 {
   return *elements_[index];
+}
+
+Node<3>& Project::GetNodeAt(size_t index)
+{
+  return *nodes_[index];
 }

@@ -59,7 +59,7 @@ void Workspace::OnRender()
       ImGuiEX::EditableTable(PrepareSubItemHeader("","ElementTable").c_str(), element_column_name, element_table_data_, &Workspace::Action_OnElementTableInput, this, project.get(), ImGuiTableFlags_Borders);
       break;
     case Workspace::ComboBoxOption::NodeTable:
-      ImGuiEX::EditableTable(PrepareSubItemHeader("","NodeTable").c_str(), node_column_name, node_table_data_, &Workspace::Action_OnElementTableInput, this, project.get(), ImGuiTableFlags_Borders);
+      ImGuiEX::EditableTable(PrepareSubItemHeader("","NodeTable").c_str(), node_column_name, node_table_data_, &Workspace::Action_OnNodeTableInput, this, project.get(), ImGuiTableFlags_Borders);
       break;
     default:
       break;
@@ -76,41 +76,74 @@ void Workspace::Action_PrepareDataToDisplay()
   size_t current_row    { 0 };
   size_t current_column { 0 };
 
-  element_table_data_.resize(project->GetElementList().size());
+  element_table_data_.clear();
+  node_table_data_.clear();
 
+  element_table_data_.resize(project->GetElementList().size());
+  node_table_data_.resize(project->GetNodeList().size());
+
+  //Prepare element table
   for (auto& element : project->GetElementList())
   {
-    auto& node_i = element->GetNodeI();
-    auto& node_j = element->GetNodeJ();
-    auto element_data = ConcatArrays(node_i.GetValues(), node_j.GetValues());
-    auto& row = element_table_data_[current_row++];
+    auto& node_i{ element->GetNodeI() };
+    auto& node_j{ element->GetNodeJ() };
+    auto element_data{ ConcatArrays(node_i.GetValues(), node_j.GetValues()) };
+    auto& row{ element_table_data_[current_row++] };
 
     for (auto& cell : row)
     {
-      auto temp = std::format("{:.{}f}",element_data[current_column++],3);
+      auto temp{ std::format("{:.{}f}",element_data[current_column++], 3) };
       cell = std::move(temp);
     }
     current_column = 0;
   }
+
+  current_row = 0;
+  current_column = 0;
+
+  //Prepare node table
+  for (auto& node : project->GetNodeList())
+  {
+    auto& row{ node_table_data_[current_row++] };
+
+    for (auto& cell : row)
+    {
+      auto& values{ node->GetValues() };
+
+      auto temp{ std::format("{:.{}f}", values[current_column++], 3) };
+      cell = std::move(temp);
+    }
+
+    current_column = 0;
+  }
 }
+
 void Workspace::Action_AddElement()
 {
-  auto project = project_.lock();
-
-  if (0 != strcmp(input_text_buffer_.c_str(), input_label))
+  if (auto project = project_.lock(); 0 != strcmp(input_text_buffer_.c_str(), input_label))
   {
-    auto coordinates = SplitString(input_text_buffer_, ',');
-
-    if (coordinates.size() == 6)
+    if (auto coordinates{ SplitString(input_text_buffer_, ',') }; coordinates.size() == 6)
     {
       auto f_cords = ConvertStringListToFloats(coordinates);
       Node<3> i{f_cords[0], f_cords[1], f_cords[2]};
       Node<3> j{f_cords[3], f_cords[4], f_cords[5]};
       project->AddElement(i, j);
 
-      auto cords_arr = ConcatArrays(i.GetValues(), j.GetValues());
+      auto cords_arr{ ConcatArrays(i.GetValues(), j.GetValues()) };
 
       element_table_data_.push_back(StringifyArrayItems(cords_arr, "{:.{}f}", 3));
+
+      if (auto& project_node_list{ project->GetNodeList() }; project_node_list.size() != node_table_data_.size())
+      {
+        auto difference{ project_node_list.size() - node_table_data_.size() };
+        auto new_node{ std::begin(project_node_list) + project_node_list.size() - difference };
+        
+        while (new_node != std::end(project_node_list))
+        {
+          node_table_data_.push_back(StringifyArrayItems(new_node->get()->GetValues(),"{:.{}f}", 3));
+          new_node++;
+        }
+      }
     }
 
     input_text_reset_ = true;
@@ -121,17 +154,33 @@ void Workspace::Action_AddElement()
 
 bool Workspace::Action_OnElementTableInput(TableDataPack& data_pack)
 {
-  auto project = static_cast<Project*>(data_pack.user_data);
-  auto current_row = data_pack.row;
-  auto current_column = data_pack.column;
-
+  auto project{ static_cast<Project*>(data_pack.user_data) };
+  auto current_row{ data_pack.row };
+  auto current_column{ data_pack.column };
   auto& element{ project->GetElementAt(current_row) };
   auto index{ static_cast<int>(current_column) / element.DimensionCount() };
   auto coordinate{ static_cast<int>(current_column) % element.DimensionCount() };
 
-  std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), & element.GetNodeJ() };
+  std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), &element.GetNodeJ() };
 
   nodes[index]->SetValueAt(static_cast<int>(coordinate), std::stod(data_pack.item.c_str()));
+
+  Action_PrepareDataToDisplay();
+
+  return true;
+}
+
+bool Workspace::Action_OnNodeTableInput(TableDataPack& data_pack)
+{
+  auto project{ static_cast<Project*>(data_pack.user_data) };
+  auto current_row{ data_pack.row };
+  auto current_column{ data_pack.column };
+  auto& node{ project->GetNodeAt(current_row) };
+  auto coordinate{ static_cast<int>(current_column) % node.DimensionCount() };
+
+  node.SetValueAt(current_column, std::stod(data_pack.item.c_str()));
+
+  Action_PrepareDataToDisplay();
 
   return true;
 }

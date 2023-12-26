@@ -27,7 +27,8 @@ public:
   const NodeList&    GetNodeList() const&;
   NodeList&&         GetNodeList() &&;
 
-  Element<3>& GetElementAt(size_t index);
+  Element<3>&        GetElementAt(size_t index);
+  Node<3>&           GetNodeAt(size_t index);
 
 private:
   NodeList nodes_;

@@ -27,6 +27,7 @@ private:
   void Action_PrepareDataToDisplay();
   void Action_AddElement();
   bool Action_OnElementTableInput(TableDataPack& data_pack);
+  bool Action_OnNodeTableInput(TableDataPack& data_pack);
 
   void Render_ComboBox();
 
