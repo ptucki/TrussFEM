@@ -1,6 +1,7 @@
 #include "truss_app.h"
 #include "comp/workspace.h"
 #include "comp/log_window.h"
+#include "command.h"
 
 #include <iostream>
   
@@ -12,6 +13,9 @@ TrussApp::TrussApp()
 {
   component_manager_.AttachComponent<Workspace>(parent_, project_);
   component_manager_.AttachComponent<LogWindow>(parent_);
+
+  auto& cmd_mng = CmdManager::GetInstance();
+
 }
 
 void TrussApp::StartUp()

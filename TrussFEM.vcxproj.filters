@@ -113,6 +113,12 @@
     <ClCompile Include="src\common\uuid.cpp">
       <Filter>Common\Geometric</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\base_command.cpp">
+      <Filter>Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\command.cpp">
+      <Filter>Gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\node.h">
@@ -198,6 +204,12 @@
     </ClInclude>
     <ClInclude Include="src\common\uuid.h">
       <Filter>Common\Geometric</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\base_command.h">
+      <Filter>Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\command.h">
+      <Filter>Gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
