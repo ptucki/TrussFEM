@@ -1,6 +1,7 @@
 #include "imgui.h"
 #include <format>
 #include "imgui_extension.h"
+#include "command.h"
 
 #include "log_window.h"
 
@@ -42,7 +43,9 @@ void LogWindow::OnRender()
       ImGui::SetNextItemWidth(-FLT_MIN);
       if (ImGuiEX::InputText(std::format("##{}childWindow2", GetId()).c_str(), &command_line_buffer_, "command: ", &input_state_, ImGuiInputTextFlags_EnterReturnsTrue))
       {
-        values_.emplace_back(std::move(command_line_buffer_));
+        auto ptr = CmdManager::GetInstance().Request(command_line_buffer_);
+        if (!ptr.expired()) ptr.lock()->Execute();
+
         ImGui::SetKeyboardFocusHere(-1);
       }
 

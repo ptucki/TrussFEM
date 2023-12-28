@@ -3,8 +3,10 @@
 
 #include <unordered_map>
 #include <string>
+//#include <string_view>
 #include <memory>
 #include <iostream>
+#include "utilities.h"
 
 class CommandManager;
 
@@ -13,13 +15,47 @@ class BaseCommand
 {
 public:
   virtual bool Execute() = 0;
-
-protected:
-  BaseCommand() {}
-
   virtual ~BaseCommand() = default;
 
+
+
+protected:
+  BaseCommand()
+    : expected_args_{ 0 }
+    , is_valid_{ true }
+  {
+  
+  }
+
+  BaseCommand& operator<<(const std::string& token)
+  {
+    if (token.starts_with('-') || token.starts_with("--"))
+    {
+      expected_args_ = this->ProvideOption(token);
+    }
+    else if(expected_args_ > 0)
+    {
+      this->ProvideArgument(token);
+      expected_args_--;
+    }
+    else
+    {
+      SetError();
+    }
+
+    return *this;
+  }
+
+  virtual int ProvideOption(const std::string& token) = 0;
+  virtual void ProvideArgument(const std::string& token) = 0;
+
+
 private:
+
+  void SetError() { is_valid_ = false; }
+
+  int expected_args_;
+  bool is_valid_;
 };
 
 // -----------------------------------------------------------------------------
@@ -49,7 +85,10 @@ class CommandManagerBase
 public:
   using CommandMap = std::unordered_map<std::string, std::shared_ptr<BaseCommand>>;
 
-  //static void ParseCommand() {}
+  decltype(auto) Request(const std::string& command)
+  {
+    return ParseCommand(command);
+  }
 
   static Derived& GetInstance()
   {
@@ -86,6 +125,26 @@ protected:
     commands_.insert(
       std::make_pair(Command::GetInvoker(), std::make_shared<Command>(std::forward<Args>(args)...))
     );
+  }
+
+  std::weak_ptr<BaseCommand> ParseCommand(const std::string& str) {
+    auto tokens = SplitStringIntoQueue(str, ' ', false);
+
+    std::shared_ptr<BaseCommand> command = commands_[tokens.front()];
+    tokens.pop();
+
+    while (tokens.size() > 0)
+    {
+      command << tokens.front();;
+      tokens.pop();
+    }
+
+    return command;
+  }
+
+  static bool isOption(const std::string& token)
+  {
+    return token.starts_with('-') || token.starts_with("--");
   }
 
 private:

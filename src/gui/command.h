@@ -6,18 +6,19 @@
 class TestCommand : public Command<TestCommand>
 {
 public:
-  TestCommand() : Command<TestCommand>("add") {
+  TestCommand() : Command<TestCommand>("test") {
     std::cout << "Command Added!\n";
   }
 
   bool Execute() override {
+    std::cout << "Execute <test>!\n";
     return true;
   }
 };
 
 class CmdManager : public CommandManagerBase<CmdManager>
 {
-
+  
 protected:
   CmdManager() {
     std::cout << "CmdManager initialized\n";
