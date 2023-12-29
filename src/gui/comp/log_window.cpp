@@ -15,7 +15,6 @@ LogWindow::LogWindow(std::weak_ptr<BaseComponent> parent)
   , input_height{ 2 * ImGui::GetStyle().FramePadding.y + ImGui::GetFontSize() + 2 * ImGui::GetStyle().ItemSpacing.y }
 {
   command_line_buffer_.reserve(50);
-
 }
 
 void LogWindow::OnRender()
@@ -31,20 +30,40 @@ void LogWindow::OnRender()
     {
 
       ImVec2 first_child = ImVec2(0, ImGui::GetContentRegionAvail().y - (2 * ImGui::GetStyle().FramePadding.y + ImGui::GetFontSize()));
-      ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(30.0f, 30.0f));
       if (ImGui::BeginChild(std::format("bbb##{}childWindow", GetId()).c_str(), first_child, ImGuiChildFlags_Border))
       {
-      
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(70, 70, 70, 255));
+
+        for (auto& message : messages_)
+        {
+          ImGui::TextWrapped(message.c_str());
+        }
+        ImGui::PopStyleColor();
       }
       ImGui::EndChild();
-      ImGui::PopStyleVar();
 
 
       ImGui::SetNextItemWidth(-FLT_MIN);
       if (ImGuiEX::InputText(std::format("##{}childWindow2", GetId()).c_str(), &command_line_buffer_, "command: ", &input_state_, ImGuiInputTextFlags_EnterReturnsTrue))
       {
-        auto ptr = CmdManager::GetInstance().Request(command_line_buffer_);
-        if (!ptr.expired()) ptr.lock()->Execute();
+        //multi_line_buffer_ += "> " + command_line_buffer_ + '\n';
+        messages_.emplace_back("> " + command_line_buffer_);
+        auto command_ptr = CmdManager::GetInstance().Request(command_line_buffer_);
+        if (!command_ptr.expired())
+        {
+          auto cmd = command_ptr.lock();
+          //if(cmd->Execute()) multi_line_buffer_ += cmd->GetResult() + '\n';
+          if(cmd->Execute()) messages_.emplace_back(cmd->GetResult());
+        }
+        else
+        {
+          //multi_line_buffer_ += "Unrecognized command";
+          messages_.emplace_back("Unrecognized command");
+        }
+
+
+
+
 
         ImGui::SetKeyboardFocusHere(-1);
       }

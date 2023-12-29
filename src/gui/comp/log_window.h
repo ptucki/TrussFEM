@@ -21,6 +21,8 @@ COMP_STATE:
   std::vector<std::string> values_; //To be deleted when logger
 
   std::string command_line_buffer_;
+  //std::string multi_line_buffer_;
+  std::vector<std::string> messages_;
   bool input_state_;
 
 
