@@ -30,9 +30,14 @@ public:
   Element<3>&        GetElementAt(size_t index);
   Node<3>&           GetNodeAt(size_t index);
 
+  const CoordinateSystem& GetCoordinateSystem() const;
+
+  void SetLocalCoordinateSystem(Point3 point, std::array<Angle, 3> rotations);
+
 private:
   NodeList nodes_;
   ElementList elements_;
+  CoordinateSystem coord_sys_;
 };
 
 #endif // !PROJECT_H

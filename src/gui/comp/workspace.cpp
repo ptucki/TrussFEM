@@ -237,7 +237,7 @@ bool Workspace::Action_OnNodeTableInput(TableDataPack& data_pack)
   auto& node{ project->GetNodeAt(current_row) };
   auto coordinate{ static_cast<int>(current_column) % node.DimensionCount() };
 
-  node.SetValueAt(current_column, std::stod(data_pack.item.c_str()));
+  node.SetValueAt(static_cast<int>(current_column), std::stod(data_pack.item.c_str()));
 
   Action_PrepareDataToDisplay();
 

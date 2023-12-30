@@ -20,6 +20,8 @@ public:
   void StartUp();
   void OnRender();
 
+  std::shared_ptr<Project> GetProject() const { return project_; }
+
 private:
 
   void RenderMainMenuBar();

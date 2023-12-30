@@ -1,7 +1,7 @@
 #include "imgui.h"
 #include <format>
 #include "imgui_extension.h"
-#include "command.h"
+#include "command_manager.h"
 
 #include "log_window.h"
 
@@ -48,12 +48,17 @@ void LogWindow::OnRender()
       {
         //multi_line_buffer_ += "> " + command_line_buffer_ + '\n';
         messages_.emplace_back("> " + command_line_buffer_);
+        if (messages_.size() > 30)
+        {
+          messages_.pop_front();
+        }
         auto command_ptr = CmdManager::GetInstance().Request(command_line_buffer_);
         if (!command_ptr.expired())
         {
           auto cmd = command_ptr.lock();
           //if(cmd->Execute()) multi_line_buffer_ += cmd->GetResult() + '\n';
-          if(cmd->Execute()) messages_.emplace_back(cmd->GetResult());
+          cmd->Execute();
+          messages_.emplace_back(cmd->GetResult());
         }
         else
         {

@@ -47,7 +47,7 @@ static void glfw_error_callback(int error, const char* description)
 }
 
 template<class Derived>
-class Application : public Component<Application<Derived>>
+class Application : public Component<Application<Derived>>, public std::enable_shared_from_this<Derived>
 {
 public:
 
@@ -56,6 +56,11 @@ public:
 
   void Run();
   void Shutdown();
+
+  ComponentManager& GetComponentManager()
+  {
+    return component_manager_;
+  }
 
 protected:
   ComponentManager component_manager_;

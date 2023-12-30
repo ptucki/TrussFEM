@@ -1,6 +1,7 @@
 #ifndef LOG_WINDOW_H
 #define LOG_WINDOW_H
 
+#include <list>
 #include "base_component.h"
 
 class LogWindow : public Component<LogWindow>
@@ -12,6 +13,7 @@ public:
   void OnRender() override;
 
   void Toggle() { opened_ = !opened_; }
+  std::list<std::string>& GetResource_ConsoleLogBuffer()& { return messages_; }
 
 COMP_STATE:
   std::string id_messages_;
@@ -22,7 +24,7 @@ COMP_STATE:
 
   std::string command_line_buffer_;
   //std::string multi_line_buffer_;
-  std::vector<std::string> messages_;
+  std::list<std::string> messages_;
   bool input_state_;
 
 

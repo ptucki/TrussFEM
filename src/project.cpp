@@ -81,3 +81,15 @@ Node<3>& Project::GetNodeAt(size_t index)
 {
   return *nodes_[index];
 }
+
+const CoordinateSystem& Project::GetCoordinateSystem() const
+{
+  return coord_sys_;
+}
+
+
+void Project::SetLocalCoordinateSystem(Point3 point, std::array<Angle, 3> rotations)
+{
+  coord_sys_.Translate(point);
+  coord_sys_.Rotate(rotations);
+}

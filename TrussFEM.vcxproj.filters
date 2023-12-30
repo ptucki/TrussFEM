@@ -42,6 +42,12 @@
     <Filter Include="ImGui\Extension">
       <UniqueIdentifier>{1f1cfe0e-467d-41f5-a1f9-f5749446b3f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gui\Commands">
+      <UniqueIdentifier>{5e0fe1ff-329e-4f9c-8e2c-4c221ec3f703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gui\Framework\CommandLine">
+      <UniqueIdentifier>{f5d3ae8b-ca7e-4728-add8-5f5461bf2549}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -113,11 +119,20 @@
     <ClCompile Include="src\common\uuid.cpp">
       <Filter>Common\Geometric</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\base_command.cpp">
-      <Filter>Gui</Filter>
+    <ClCompile Include="src\gui\framework\base_command.cpp">
+      <Filter>Gui\Framework\CommandLine</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\command.cpp">
-      <Filter>Gui</Filter>
+    <ClCompile Include="src\gui\framework\option.cpp">
+      <Filter>Gui\Framework\CommandLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\commands\test_command.cpp">
+      <Filter>Gui\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\commands\command_manager.cpp">
+      <Filter>Gui\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\commands\cls_command.cpp">
+      <Filter>Gui\Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,11 +220,23 @@
     <ClInclude Include="src\common\uuid.h">
       <Filter>Common\Geometric</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\base_command.h">
-      <Filter>Gui</Filter>
+    <ClInclude Include="src\gui\framework\base_command.h">
+      <Filter>Gui\Framework\CommandLine</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\command.h">
-      <Filter>Gui</Filter>
+    <ClInclude Include="src\gui\framework\command_manager_base.h">
+      <Filter>Gui\Framework\CommandLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\framework\option.h">
+      <Filter>Gui\Framework\CommandLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\commands\test_command.h">
+      <Filter>Gui\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\commands\command_manager.h">
+      <Filter>Gui\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\commands\cls_command.h">
+      <Filter>Gui\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,10 +34,13 @@
     <ClCompile Include="src\common\uuid.cpp" />
     <ClCompile Include="src\Debug\debug.cpp" />
     <ClCompile Include="src\element.cpp" />
-    <ClCompile Include="src\gui\base_command.cpp" />
-    <ClCompile Include="src\gui\command.cpp" />
+    <ClCompile Include="src\gui\commands\cls_command.cpp" />
+    <ClCompile Include="src\gui\commands\test_command.cpp" />
+    <ClCompile Include="src\gui\commands\command_manager.cpp" />
     <ClCompile Include="src\gui\comp\log_window.cpp" />
     <ClCompile Include="src\gui\comp\workspace.cpp" />
+    <ClCompile Include="src\gui\framework\base_command.cpp" />
+    <ClCompile Include="src\gui\framework\option.cpp" />
     <ClCompile Include="src\gui\truss_app.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -62,13 +65,17 @@
     <ClInclude Include="src\common\uuid.h" />
     <ClInclude Include="src\Debug\debug.h" />
     <ClInclude Include="src\element.h" />
-    <ClInclude Include="src\gui\base_command.h" />
-    <ClInclude Include="src\gui\command.h" />
+    <ClInclude Include="src\gui\commands\cls_command.h" />
+    <ClInclude Include="src\gui\commands\test_command.h" />
+    <ClInclude Include="src\gui\commands\command_manager.h" />
     <ClInclude Include="src\gui\comp\log_window.h" />
     <ClInclude Include="src\gui\comp\workspace.h" />
     <ClInclude Include="src\gui\framework\application.h" />
+    <ClInclude Include="src\gui\framework\base_command.h" />
     <ClInclude Include="src\gui\framework\base_component.h" />
+    <ClInclude Include="src\gui\framework\command_manager_base.h" />
     <ClInclude Include="src\gui\framework\component_manager.h" />
+    <ClInclude Include="src\gui\framework\option.h" />
     <ClInclude Include="src\gui\truss_app.h" />
     <ClInclude Include="src\imconfig.h" />
     <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />
@@ -186,7 +193,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom\;C:\Users\patry\Desktop\dev2\TrussFEM\include\;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)src\;$(SolutionDir)src\common\;$(SolutionDir)src\gui\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\debug\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom\;C:\Users\patry\Desktop\dev2\TrussFEM\include\;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)src\;$(SolutionDir)src\common\;$(SolutionDir)src\gui\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\commands\;$(SolutionDir)src\debug\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -222,7 +229,7 @@ CALL Init.bat $(Configuration)</Command>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom\;C:\Users\patry\Desktop\dev2\TrussFEM\include\;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\;$(SolutionDir)src\common\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\patry\Desktop\dev2\TrussFEM\src\common\geom\;C:\Users\patry\Desktop\dev2\TrussFEM\include\;C:\Users\patry\Desktop\dev2\TrussFEM\include\freetype\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\command_line\;$(SolutionDir)src\gui\;$(SolutionDir)src\common\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -244,7 +251,7 @@ CALL Init.bat $(Configuration)</Command>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\common\geom\;$(SolutionDir)include\;$(SolutionDir)include\freetype\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)src\;$(SolutionDir)src\common\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\;$(SolutionDir)src\debug\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\common\geom\;$(SolutionDir)include\;$(SolutionDir)include\freetype\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)src\;$(SolutionDir)src\common\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\commands\;$(SolutionDir)src\gui\;$(SolutionDir)src\debug\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -288,7 +295,7 @@ CALL Init.bat $(Configuration)</Command>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\;$(SolutionDir)src\common\;$(SolutionDir)src\common\geom\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\;$(SolutionDir)src\debug\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)include\;$(SolutionDir)include\freetype\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\;$(SolutionDir)src\common\;$(SolutionDir)src\common\geom\;$(SolutionDir)src\gui\framework\;$(SolutionDir)src\gui\commands\;$(SolutionDir)src\gui\;$(SolutionDir)src\debug\;$(SolutionDir)src\imgui\;$(SolutionDir)src\imgui\backends\;$(SolutionDir)src\imgui_extension\;$(SolutionDir)include\;$(SolutionDir)include\freetype\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
