@@ -55,7 +55,7 @@ public:
   ~Application();
 
   void Run();
-  void Shutdown();
+  void Close();
 
   ComponentManager& GetComponentManager()
   {
@@ -64,6 +64,7 @@ public:
 
 protected:
   ComponentManager component_manager_;
+  void Shutdown();
 
 private:
 
@@ -75,6 +76,7 @@ private:
 
   GLFWwindow* window_;
   ImVec4 clear_color_;
+  bool requested_to_close_;
 };
 
 template<class Derived>
@@ -82,6 +84,7 @@ Application<Derived>::Application()
   : Component<Application>("Application", std::shared_ptr<Application<Derived>>(), "")
   , window_{ nullptr }
   , clear_color_{ ImVec4(0.45f, 0.55f, 0.60f, 1.00f) }
+  , requested_to_close_{ false }
 {
   Init();
 }
@@ -192,7 +195,7 @@ void Application<Derived>::Run()
   io.IniFilename = nullptr;
   EMSCRIPTEN_MAINLOOP_BEGIN
 #else
-  while (!glfwWindowShouldClose(window_))
+  while (!glfwWindowShouldClose(window_) && !requested_to_close_)
 #endif
   {
     // Poll and handle events (inputs, window resize, etc.)
@@ -265,6 +268,11 @@ template<class Derived>
 inline void Application<Derived>::OnRender()
 {
   static_cast<Derived*>(this)->OnRender();
+}
+template<class Derived>
+void Application<Derived>::Close()
+{
+  requested_to_close_ = true;
 }
 
 #endif // !APPLICATION_H

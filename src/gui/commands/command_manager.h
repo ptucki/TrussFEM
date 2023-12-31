@@ -5,6 +5,7 @@
 #include "comp/log_window.h"
 #include "test_command.h"
 #include "cls_command.h"
+#include "quick_command.h"
 #include "truss_app.h"
 
 class CmdManager : public CommandManagerBase<CmdManager>
@@ -20,12 +21,22 @@ public:
     //Init cls command
     auto log_window = component_mng.GetComponentByType<LogWindow>();
 
-    this->AddCommand<ClsCommand>(log_window.lock()->GetResource_ConsoleLogBuffer());
+    this->AddQuickCommand("cls", [app](auto& result)->bool {
+      auto comp_mng = app->GetComponentManager();
+      auto log_window = comp_mng.GetComponentByType<LogWindow>();
+      log_window.lock()->GetResource_ConsoleLogBuffer().clear();
+
+      return true;
+      });
+
+    this->AddQuickCommand("exit", [app](auto& result)->bool {
+      app->Close();
+
+      return true;
+      });
 
     //Init Test command
     this->AddCommand<TestCommand>();
-
-    //this->AddCommand<ShutdownCommand>();
   }
 
 protected:

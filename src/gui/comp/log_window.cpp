@@ -30,17 +30,21 @@ void LogWindow::OnRender()
     {
 
       ImVec2 first_child = ImVec2(0, ImGui::GetContentRegionAvail().y - (2 * ImGui::GetStyle().FramePadding.y + ImGui::GetFontSize()));
-      if (ImGui::BeginChild(std::format("bbb##{}childWindow", GetId()).c_str(), first_child, ImGuiChildFlags_Border))
+      ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.15, 0.15, 0.15, 1));
+      if (ImGui::BeginChild(std::format("bbb##{}childWindow", GetId()).c_str(), first_child, ImGuiChildFlags_Border, ImGuiWindowFlags_HorizontalScrollbar))
       {
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(70, 70, 70, 255));
 
+        if (messages_.size() > 0 && messages_.front().empty())
+        {
+          messages_.pop_front();
+        }
         for (auto& message : messages_)
         {
           ImGui::TextWrapped(message.c_str());
         }
-        ImGui::PopStyleColor();
       }
       ImGui::EndChild();
+      ImGui::PopStyleColor();
 
 
       ImGui::SetNextItemWidth(-FLT_MIN);

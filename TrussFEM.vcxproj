@@ -41,6 +41,7 @@
     <ClCompile Include="src\gui\comp\workspace.cpp" />
     <ClCompile Include="src\gui\framework\base_command.cpp" />
     <ClCompile Include="src\gui\framework\option.cpp" />
+    <ClCompile Include="src\gui\framework\quick_command.cpp" />
     <ClCompile Include="src\gui\truss_app.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -73,9 +74,11 @@
     <ClInclude Include="src\gui\framework\application.h" />
     <ClInclude Include="src\gui\framework\base_command.h" />
     <ClInclude Include="src\gui\framework\base_component.h" />
+    <ClInclude Include="src\gui\framework\command.h" />
     <ClInclude Include="src\gui\framework\command_manager_base.h" />
     <ClInclude Include="src\gui\framework\component_manager.h" />
     <ClInclude Include="src\gui\framework\option.h" />
+    <ClInclude Include="src\gui\framework\quick_command.h" />
     <ClInclude Include="src\gui\truss_app.h" />
     <ClInclude Include="src\imconfig.h" />
     <ClInclude Include="src\imgui\backends\imgui_impl_glfw.h" />

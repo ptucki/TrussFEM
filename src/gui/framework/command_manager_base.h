@@ -8,6 +8,7 @@
 #include <utility>
 #include "base_command.h"
 
+class QuickCommand;
 class BaseCommand;
 
 template<class Derived>
@@ -55,6 +56,15 @@ protected:
   {
     commands_.insert(
       std::make_pair(Command::GetInvoker(), std::make_shared<Command>(std::forward<Args>(args)...))
+    );
+  }
+
+  void AddQuickCommand(const char* invoker, const std::function<bool(std::string&)>& callable)
+  {
+    assert(commands_.find(invoker) == commands_.end());
+
+    commands_.insert(
+      std::make_pair(invoker, std::make_shared<QuickCommand>(invoker, callable))
     );
   }
 
