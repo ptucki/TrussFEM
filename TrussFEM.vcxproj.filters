@@ -131,11 +131,11 @@
     <ClCompile Include="src\gui\commands\command_manager.cpp">
       <Filter>Gui\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\commands\cls_command.cpp">
-      <Filter>Gui\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\framework\quick_command.cpp">
       <Filter>Gui\Framework\CommandLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\commands\cs_command.cpp">
+      <Filter>Gui\Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,14 +238,14 @@
     <ClInclude Include="src\gui\commands\command_manager.h">
       <Filter>Gui\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\commands\cls_command.h">
-      <Filter>Gui\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\framework\command.h">
       <Filter>Gui\Framework\CommandLine</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\framework\quick_command.h">
       <Filter>Gui\Framework\CommandLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\commands\cs_command.h">
+      <Filter>Gui\Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

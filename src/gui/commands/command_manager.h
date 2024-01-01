@@ -4,7 +4,7 @@
 #include "command_manager_base.h"
 #include "comp/log_window.h"
 #include "test_command.h"
-#include "cls_command.h"
+#include "cs_command.h"
 #include "quick_command.h"
 #include "truss_app.h"
 
@@ -16,7 +16,7 @@ public:
     app_ = app;
     
     auto& component_mng = app->GetComponentManager();
-    auto& current_project = *app->GetProject();
+    auto current_project = app->GetProject();
 
     //Init cls command
     auto log_window = component_mng.GetComponentByType<LogWindow>();
@@ -37,6 +37,7 @@ public:
 
     //Init Test command
     this->AddCommand<TestCommand>();
+    this->AddCommand<CordSysCommand>(current_project);
   }
 
 protected:

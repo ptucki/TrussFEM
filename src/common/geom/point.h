@@ -59,6 +59,9 @@ public:
   template<arithmetic U, arithmetic... Tail>
   Point(U arg, Tail... args);
 
+  Point(const Point<N, T>& point);
+  Point(Point<N, T>&& point) noexcept;
+
   /**
   * Constructs a new point with given coordinates.
   * @brief Constructor
@@ -143,6 +146,9 @@ public:
   */
   static constexpr size_type DimensionCount() noexcept;
 
+  constexpr Point& operator=(const Point& obj);
+  constexpr Point& operator=(Point&& obj);
+
   constexpr Point operator+(Point point);
   constexpr Point& operator+=(Point data);
   constexpr Point operator-(Point point);
@@ -193,6 +199,18 @@ template<typename Indices>
 Point<N, T>::Point(std::array<T, N> values) : Point(values, Indices{})
 {
 
+}
+
+template<int N, arithmetic T>
+inline Point<N, T>::Point(const Point<N, T>& point)
+{
+  values_ = point.values_;
+}
+
+template<int N, arithmetic T>
+inline Point<N, T>::Point(Point<N, T>&& point) noexcept
+{
+  values_ = std::move(point.values_);
 }
 
 template<int N, arithmetic T>
@@ -280,6 +298,22 @@ template<int N, arithmetic T>
 constexpr Point<N, T>::size_type Point<N, T>::DimensionCount() noexcept
 {
   return N;
+}
+
+template<int N, arithmetic T>
+inline constexpr Point<N,T>& Point<N, T>::operator=(const Point& obj)
+{
+  this->values_ = obj.values_;
+
+  return *this;
+}
+
+template<int N, arithmetic T>
+inline constexpr Point<N, T>& Point<N, T>::operator=(Point&& obj)
+{
+  this->values_ = std::move(obj.values_);
+
+  return *this;
 }
 
 template<int N, arithmetic T>

@@ -3,6 +3,14 @@
 #include <memory>
 #include <iostream>
 
+Project::Project()
+  : nodes_{}
+  , elements_{}
+  , coord_sys_{}
+{
+
+}
+
 void Project::AddElement(Node<3> i, Node<3> j)
 {
   //Check if Node exists at such a location
@@ -90,6 +98,6 @@ const CoordinateSystem& Project::GetCoordinateSystem() const
 
 void Project::SetLocalCoordinateSystem(Point3 point, std::array<Angle, 3> rotations)
 {
-  coord_sys_.Translate(point);
+  coord_sys_.SetPoint(point);
   coord_sys_.Rotate(rotations);
 }

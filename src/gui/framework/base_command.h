@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-#include <array>
+#include <vector>
 #include <iostream>
 #include "utilities.h"
 #include "command_manager_base.h"
@@ -20,7 +20,6 @@ public:
 
   bool IsValid() const;
   bool IsOptionValid(const std::string& option) const;
-
 
   bool Execute();
 
