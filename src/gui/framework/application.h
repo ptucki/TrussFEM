@@ -64,6 +64,7 @@ public:
 
 protected:
   ComponentManager component_manager_;
+
   void Shutdown();
 
 private:

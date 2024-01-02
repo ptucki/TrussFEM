@@ -120,7 +120,7 @@ public:
   * @return Reference to M coordinate.
   */
   template<decltype(N) M>
-  constexpr reference get();
+  constexpr reference get() const;
 
   /**
   * @brief Get X(at index 0) point coordinate value.
@@ -255,7 +255,7 @@ inline void Point<N, T>::SetValues(U arg, Args ...args)
 
 template<int N, arithmetic T>
 template<decltype(N) M>
-constexpr Point<N, T>::reference Point<N, T>::get()
+constexpr Point<N, T>::reference Point<N, T>::get() const
 {
   static_assert(M < N, "Cannot get M-coordinate from N-dimensional Point. (M >= N)");
 

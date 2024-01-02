@@ -169,7 +169,9 @@ void Workspace::Action_PrepareDataToDisplay()
     {
       auto& values{ node->GetValues() };
 
-      auto temp{ std::format("{:.{}f}", values[current_column++], 3) };
+      auto local_coordinates = SumArrays(values, static_cast<std::array<double, 3>>(coord_sys.GetCoordinates()));
+
+      auto temp{ std::format("{:.{}f}", local_coordinates[current_column++], 3) };
       cell = std::move(temp);
     }
 
@@ -213,16 +215,23 @@ void Workspace::Action_AddElement()
 
 bool Workspace::Action_OnElementTableInput(TableDataPack& data_pack)
 {
-  auto project{ static_cast<Project*>(data_pack.user_data) };
-  auto current_row{ data_pack.row };
-  auto current_column{ data_pack.column };
-  auto& element{ project->GetElementAt(current_row) };
-  auto index{ static_cast<int>(current_column) / element.DimensionCount() };
-  auto coordinate{ static_cast<int>(current_column) % element.DimensionCount() };
+  auto& coord_sys      { project_.lock()->GetCoordinateSystem()};
+  auto current_row     { data_pack.row };
+  auto project         { static_cast<Project*>(data_pack.user_data) };
+  auto current_column  { data_pack.column };
+  auto& element        { project->GetElementAt(current_row) };
+  auto index           { static_cast<int>(current_column) / element.DimensionCount() };
+  auto coordinate      { static_cast<int>(current_column) % element.DimensionCount() };
 
   std::array<Node<3>*, 2> nodes{ &element.GetNodeI(), &element.GetNodeJ() };
 
-  nodes[index]->SetValueAt(static_cast<int>(coordinate), std::stod(data_pack.item.c_str()));
+  auto& ucs_coords = coord_sys.GetCoordinates().GetValues();
+
+
+  auto global_value = std::stod(data_pack.item.c_str()) - ucs_coords[coordinate];
+
+    
+  nodes[index]->SetValueAt(static_cast<int>(coordinate), global_value);
 
   Action_PrepareDataToDisplay();
 

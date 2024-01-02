@@ -4,9 +4,6 @@
 #include "command_manager.h"
 
 #include <iostream>
-  
-constexpr const char* workspace_id  = "Workspace";
-constexpr const char* log_window_id = "LogWindow";
 
 TrussApp::TrussApp()
   : project_{ std::make_shared<Project>() }

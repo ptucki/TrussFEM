@@ -37,7 +37,7 @@ public:
 
     //Init Test command
     this->AddCommand<TestCommand>();
-    this->AddCommand<CordSysCommand>(current_project);
+    this->AddCommand<CordSysCommand>(current_project, app);
   }
 
 protected:

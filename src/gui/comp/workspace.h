@@ -15,6 +15,7 @@ public:
   ~Workspace() = default;
 
   void OnRender() override;
+  void Action_PrepareDataToDisplay();
 
 private:
 
@@ -24,7 +25,6 @@ private:
     NodeTable
   };
 
-  void Action_PrepareDataToDisplay();
   void Action_AddElement();
   bool Action_OnElementTableInput(TableDataPack& data_pack);
   bool Action_OnNodeTableInput(TableDataPack& data_pack);
@@ -47,9 +47,6 @@ private:
   //Combobox
   ComboBoxOption cbox_current_option_;
   const char* cbox_preview_value_;
-
-GUI_STYLE:
-
 };
 
 

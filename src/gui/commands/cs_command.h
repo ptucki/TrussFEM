@@ -3,15 +3,17 @@
 
 #include "base_command.h"
 #include "project.h"
+#include "truss_app.h"
 
 class CordSysCommand : public Command<CordSysCommand>
 {
 public:
-  CordSysCommand(std::weak_ptr<Project> project);
+  CordSysCommand(std::weak_ptr<Project> project, TrussApp* app);
 protected:
   bool OnExecute(Option& current_option) override;
 private:
   std::weak_ptr<Project> current_project_;
+  TrussApp* app_;
 };
 
 
